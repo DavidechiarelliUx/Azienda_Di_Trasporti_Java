@@ -3,6 +3,9 @@ package it.epicode.Amministratore.Biglietto.PuntoEmissione;
 import it.epicode.Amministratore.Biglietto.Biglietto;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "punti_di_emissione")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -16,7 +19,7 @@ public abstract class PuntoDiEmissione {
     private String citta;
 
     @OneToMany(mappedBy = "puntoDiEmissione")
-    private Biglietto biglietto;
+    private List<Biglietto> biglietti = new ArrayList<>();
 
     public Long getId() {
         return id;
