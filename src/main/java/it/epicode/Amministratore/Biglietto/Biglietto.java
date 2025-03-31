@@ -1,7 +1,6 @@
 package it.epicode.Amministratore.Biglietto;
 
-import it.epicode.Amministratore.Biglietto.Distributori.Distributore;
-import it.epicode.Amministratore.Biglietto.Rivenditori.Rivenditore;
+import it.epicode.Amministratore.Biglietto.PuntoEmissione.PuntoDiEmissione;
 import jakarta.persistence.*;
 import jakarta.persistence.GenerationType;
 
@@ -14,12 +13,10 @@ public class Biglietto {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(name = "zona_di_emissione", nullable = false)
-    private String zona_di_emissione;
+    private PuntoDiEmissione puntoDiEmissione;
     @Column(name = "data_di_emissione", nullable = false)
     private LocalDate data_di_emissione;
 
-    //private Rivenditore rivenditore;
-    //    private Distributore distributore;
 
     public Long getId() {
         return id;
@@ -29,12 +26,12 @@ public class Biglietto {
         this.id = id;
     }
 
-    public String getZona_di_emissione() {
-        return zona_di_emissione;
+    public PuntoDiEmissione getPuntoDiEmissione() {
+        return puntoDiEmissione;
     }
 
-    public void setZona_di_emissione(String zona_di_emissione) {
-        this.zona_di_emissione = zona_di_emissione;
+    public void setPuntoDiEmissione(PuntoDiEmissione puntoDiEmissione) {
+        this.puntoDiEmissione = puntoDiEmissione;
     }
 
     public LocalDate getData_di_emissione() {
@@ -45,29 +42,21 @@ public class Biglietto {
         this.data_di_emissione = data_di_emissione;
     }
 
-    //public Rivenditore getRivenditore() {
-    //        return rivenditore;
-    //    }
-    //
-    //    public void setRivenditore(Rivenditore rivenditore) {
-    //        this.rivenditore = rivenditore;
-    //    }
-    //
-    //    public Distributore getDistributore() {
-    //        return distributore;
-    //    }
-    //
-    //    public void setDistributore(Distributore distributore) {
-    //        this.distributore = distributore;
-    //    }
-
     public Biglietto() {
     }
-    public Biglietto(Long id, String zona_di_emissione, LocalDate data_di_emissione) {
+
+    public Biglietto(Long id, PuntoDiEmissione puntoDiEmissione, LocalDate data_di_emissione) {
         this.id = id;
-        this.zona_di_emissione = zona_di_emissione;
+        this.puntoDiEmissione = puntoDiEmissione;
         this.data_di_emissione = data_di_emissione;
-        //this.rivenditore = rivenditore;
-        // this.distributore = distributore;
+    }
+
+    @Override
+    public String toString() {
+        return "Biglietto{" +
+                "id=" + id +
+                ", puntoDiEmissione=" + puntoDiEmissione +
+                ", data_di_emissione=" + data_di_emissione +
+                '}';
     }
 }

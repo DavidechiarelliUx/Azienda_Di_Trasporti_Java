@@ -1,7 +1,8 @@
 package it.epicode.Main;
 
 import it.epicode.Amministratore.Biglietto.Biglietto;
-import it.epicode.Amministratore.Biglietto.BigliettoDAO;
+import it.epicode.Amministratore.Biglietto.PuntoEmissione.Distributori.Distributore;
+import it.epicode.Amministratore.Biglietto.PuntoEmissione.Rivenditori.Rivenditore;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -13,12 +14,18 @@ public class ProvaMain {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("epicode");
         EntityManager em = emf.createEntityManager();
-
-        Biglietto biglietto = new Biglietto(null , "Roma", LocalDate.of(2023, 12, 12));
-
         em.getTransaction().begin();
-        em.persist(biglietto);
+
+        Distributore distributore = new Distributore(null, "Roma", true);
+        em.persist(distributore);
+
+        Rivenditore rivenditore = new Rivenditore(null, "Milano",123, "Cosimo");
+        em.persist(rivenditore);
+
+
         em.getTransaction().commit();
+
+        //em.getTransaction().commit();
         em.close();
         emf.close();
     }
