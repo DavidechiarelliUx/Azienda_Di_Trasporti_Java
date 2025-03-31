@@ -52,4 +52,8 @@ public abstract class PuntoDiEmissione {
                 ", citta='" + citta + '\'' +
                 '}';
     }
+    
+    public boolean isAttivo() {
+        return true;
+    }
 }

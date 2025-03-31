@@ -1,20 +1,21 @@
 package it.epicode.Amministratore.Utente;
 
 import it.epicode.Amministratore.Abbonamento.Tessera.Tessera;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "utenti")
 public class Utente {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
 
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
     private String cognome;
-
+    
     @OneToOne
     private Tessera tessera;
 
@@ -50,13 +51,14 @@ public class Utente {
 
     public Utente() {
     }
-
+    
     @Override
     public String toString() {
         return "Utente{" +
-                "nome='" + nome + '\'' +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
-                ", tessera=" + tessera +
+                ", tessera_id=" + (tessera != null ? tessera.getCodiceTessera() : "N/A") +
                 '}';
     }
 }

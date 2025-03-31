@@ -3,49 +3,62 @@ package it.epicode.Amministratore.Biglietto.PuntoEmissione.Rivenditori;
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.PuntoDiEmissione;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "rivenditori")
 public class Rivenditore extends PuntoDiEmissione {
-
+    
     @Column(name = "codice_identificativo", nullable = false)
     private int codiceIdentificativo;
-
-    @Column(name = "nome_rivenditore")
-    private String nome_rivenditore;
-
+    
+    @Column(name = "nome_rivenditore", nullable = false)
+    private String nomeRivenditore;
+    
+    @Column(name = "attivo", nullable = false)
+    private boolean attivo;
+    
     public int getCodiceIdentificativo() {
         return codiceIdentificativo;
     }
-
+    
     public void setCodiceIdentificativo(int codiceIdentificativo) {
         this.codiceIdentificativo = codiceIdentificativo;
     }
-
-    public String getNome_rivenditore() {
-        return nome_rivenditore;
+    
+    public String getNomeRivenditore() {
+        return nomeRivenditore;
     }
-
-    public void setNome_rivenditore(String nome_rivenditore) {
-        this.nome_rivenditore = nome_rivenditore;
+    
+    public void setNomeRivenditore(String nomeRivenditore) {
+        this.nomeRivenditore = nomeRivenditore;
     }
-
+    
+    public boolean isAttivo() {
+        return attivo;
+    }
+    
+    public void setAttivo(boolean attivo) {
+        this.attivo = attivo;
+    }
+    
     public Rivenditore() {
     }
-
-    public Rivenditore(Long id, String citta, int codiceIdentificativo, String nome_rivenditore) {
+    
+    public Rivenditore(Long id, String citta, int codiceIdentificativo, String nomeRivenditore, boolean attivo) {
         super(id, citta);
         this.codiceIdentificativo = codiceIdentificativo;
-        this.nome_rivenditore = nome_rivenditore;
+        this.nomeRivenditore = nomeRivenditore;
+        this.attivo = attivo;
     }
-
+    
     @Override
     public String toString() {
         return "Rivenditore{" +
                 "codiceIdentificativo=" + codiceIdentificativo +
-                ", nome_rivenditore='" + nome_rivenditore + '\'' +
+                ", nomeRivenditore='" + nomeRivenditore + '\'' +
+                ", citta='" + getCitta() + '\'' +
+                ", attivo=" + (attivo ? "Attivo" : "Non disponibile") +
                 '}';
     }
 }

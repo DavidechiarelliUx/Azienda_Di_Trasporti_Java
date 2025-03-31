@@ -20,10 +20,10 @@ public class Tessera {
 
     @OneToOne
     private Abbonamento abbonamento;
-
-    @OneToOne
+    
+    @OneToOne(mappedBy = "tessera", cascade = CascadeType.ALL)
     private Utente utente;
-
+    
     public int getCodiceTessera() {
         return codiceTessera;
     }

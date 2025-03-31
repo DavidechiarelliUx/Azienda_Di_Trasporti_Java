@@ -12,10 +12,11 @@ public class Abbonamento {
     @Id
     @GeneratedValue (strategy = GenerationType.SEQUENCE)
     private long id;
-
-    @Column (nullable = false)
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Tipologia tipologia;
-
+    
     private LocalDate dataInizio;
     private LocalDate dataFine;
 

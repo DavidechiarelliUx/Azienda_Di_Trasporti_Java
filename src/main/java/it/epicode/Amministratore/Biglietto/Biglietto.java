@@ -45,9 +45,8 @@ public class Biglietto {
 
     public Biglietto() {
     }
-
-    public Biglietto(Long id, PuntoDiEmissione puntoDiEmissione, LocalDate data_di_emissione) {
-        this.id = id;
+    
+    public Biglietto(PuntoDiEmissione puntoDiEmissione, LocalDate data_di_emissione) {
         this.puntoDiEmissione = puntoDiEmissione;
         this.data_di_emissione = data_di_emissione;
     }
