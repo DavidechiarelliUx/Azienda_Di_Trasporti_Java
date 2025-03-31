@@ -1,5 +1,6 @@
 package it.epicode.Amministratore.Biglietto.PuntoEmissione;
 
+import it.epicode.Amministratore.Biglietto.Biglietto;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +14,9 @@ public abstract class PuntoDiEmissione {
 
     @Column(name = "citta", nullable = false)
     private String citta;
+
+    @OneToMany(mappedBy = "puntoDiEmissione")
+    private Biglietto biglietto;
 
     public Long getId() {
         return id;

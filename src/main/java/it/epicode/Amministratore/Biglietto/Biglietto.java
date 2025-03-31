@@ -12,7 +12,8 @@ public class Biglietto {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @Column(name = "zona_di_emissione", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "punto_di_emissione_id", nullable = false)
     private PuntoDiEmissione puntoDiEmissione;
     @Column(name = "data_di_emissione", nullable = false)
     private LocalDate data_di_emissione;
