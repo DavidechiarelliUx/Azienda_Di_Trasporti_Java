@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Table(name = "biglietti")
 public class Biglietto {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)  // Generazione automatica dell'ID
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     
     @ManyToOne
