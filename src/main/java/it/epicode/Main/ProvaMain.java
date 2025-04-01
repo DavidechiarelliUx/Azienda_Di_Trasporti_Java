@@ -19,7 +19,7 @@ public class ProvaMain {
         Distributore distributore = new Distributore(null, "Roma", true);
         em.persist(distributore);
 
-        Rivenditore rivenditore = new Rivenditore(null, "Milano",123, "Cosimo", true);
+        Rivenditore rivenditore = new Rivenditore(null,"Milano",123, "Cosimo");
         em.persist(rivenditore);
 
 

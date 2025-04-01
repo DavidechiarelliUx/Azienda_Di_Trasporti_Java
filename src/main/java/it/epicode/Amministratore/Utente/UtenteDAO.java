@@ -1,6 +1,7 @@
 package it.epicode.Amministratore.Utente;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 public class UtenteDAO {
 
@@ -20,5 +21,19 @@ public class UtenteDAO {
 
     public Utente findById(long id){
         return em.find(Utente.class, id);
+    }
+    
+    public void update(Utente nuovoUtente) {
+        em.merge(nuovoUtente);
+    }
+    
+    public Utente findByName(String nomeUtente, String cognomeUtente) {
+        TypedQuery<Utente> query = em.createQuery(
+                "SELECT u FROM Utente u WHERE u.nome = :nome AND u.cognome = :cognome", Utente.class);
+        
+        query.setParameter("nome", nomeUtente);
+        query.setParameter("cognome", cognomeUtente);
+        
+        return query.getResultStream().findFirst().orElse(null);
     }
 }

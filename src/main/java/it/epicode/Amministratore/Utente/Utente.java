@@ -8,17 +8,24 @@ import jakarta.persistence.*;
 public class Utente {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)  // Generazione automatica dell'ID
     private long id;
-
+    
     @Column(nullable = false)
     private String nome;
+    
     @Column(nullable = false)
     private String cognome;
     
     @OneToOne
+    @JoinColumn(name = "tessera_id")
     private Tessera tessera;
-
+    
+    public Utente(String nomeUtente, String cognomeUtente) {
+        this.nome = nomeUtente;
+        this.cognome = cognomeUtente;
+    }
+    
     public String getNome() {
         return nome;
     }

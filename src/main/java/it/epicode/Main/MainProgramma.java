@@ -1,181 +1,186 @@
 package it.epicode.Main;
 
+import it.epicode.Amministratore.Abbonamento.Abbonamenti.Abbonamento;
+import it.epicode.Amministratore.Abbonamento.Abbonamenti.AbbonamentoDAO;
+import it.epicode.Amministratore.Abbonamento.Abbonamenti.Tipologia;
+import it.epicode.Amministratore.Abbonamento.Tessera.Tessera;
+import it.epicode.Amministratore.Abbonamento.Tessera.TesseraDAO;
 import it.epicode.Amministratore.Biglietto.Biglietto;
+import it.epicode.Amministratore.Biglietto.BigliettoDAO;
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.Distributori.Distributore;
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.Rivenditori.Rivenditore;
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.PuntoDiEmissione;
-import it.epicode.Amministratore.Abbonamento.Tessera.Tessera;
 import it.epicode.Amministratore.Utente.Utente;
+import it.epicode.Amministratore.Utente.UtenteDAO;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class MainProgramma {
     
-    private static List<Utente> utenti = new ArrayList<>();
-    private static List<PuntoDiEmissione> puntiDiEmissione = new ArrayList<>();
-    private static Utente utenteLoggato = null;
-    
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        setupDB();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("epicode");
+        EntityManager em = emf.createEntityManager();
         
-        while (true) {
-            System.out.println("Benvenuto nel sistema di gestione dei trasporti!");
-            if (utenteLoggato != null) {
-                System.out.println("1. Visualizza informazioni utente");
-                System.out.println("2. Interagisci con i punti di emissione");
-                System.out.println("3. Logout");
-                System.out.println("4. Esci");
-            } else {
-                System.out.println("1. Login come utente");
-                System.out.println("2. Crea nuovo utente");
-                System.out.println("3. Esci");
+        UtenteDAO utenteDAO = new UtenteDAO(em);
+        TesseraDAO tesseraDAO = new TesseraDAO(em);
+        AbbonamentoDAO abbonamentoDAO = new AbbonamentoDAO(em);
+        BigliettoDAO bigliettoDAO = new BigliettoDAO(em);
+        
+        Scanner scanner = new Scanner(System.in);
+        boolean loggedIn = false;
+        Utente utenteLoggato = null;
+        
+        while (!loggedIn) {
+            System.out.println("--- Login ---");
+            System.out.println("1. Login con account esistente");
+            System.out.println("2. Crea un nuovo account");
+            System.out.print("Scegli un'operazione: ");
+            int sceltaLogin = scanner.nextInt();
+            
+            switch (sceltaLogin) {
+                case 1:
+                    System.out.print("Inserisci il nome utente: ");
+                    String nomeUtente = scanner.next();
+                    System.out.print("Inserisci il cognome utente: ");
+                    String cognomeUtente = scanner.next();
+                    
+                    utenteLoggato = utenteDAO.findByName(nomeUtente, cognomeUtente);
+                    if (utenteLoggato != null) {
+                        System.out.println("Benvenuto, " + nomeUtente + " " + cognomeUtente);
+                        loggedIn = true;
+                    } else {
+                        System.out.println("Utente non trovato. Riprova.");
+                    }
+                    break;
+                
+                case 2:
+                    System.out.print("Inserisci il nome del nuovo utente: ");
+                    nomeUtente = scanner.next();
+                    System.out.print("Inserisci il cognome del nuovo utente: ");
+                    cognomeUtente = scanner.next();
+                    
+                    Utente nuovoUtente = new Utente(nomeUtente, cognomeUtente);
+                    em.getTransaction().begin();
+                    utenteDAO.insert(nuovoUtente);
+                    em.getTransaction().commit();
+                    
+                    System.out.println("Account creato con successo!");
+                    
+                    Tessera nuovaTessera = new Tessera(nuovoUtente);
+                    tesseraDAO.insert(nuovaTessera);
+                    nuovoUtente.setTessera(nuovaTessera);
+                    
+                    em.getTransaction().begin();
+                    utenteDAO.update(nuovoUtente);
+                    em.getTransaction().commit();
+                    
+                    utenteLoggato = nuovoUtente;
+                    System.out.println("Benvenuto, " + nomeUtente + " " + cognomeUtente);
+                    loggedIn = true;
+                    break;
+                
+                default:
+                    System.out.println("Opzione non valida. Riprova.");
+                    break;
             }
-            System.out.print("Scegli un'opzione: ");
+        }
+        
+        boolean running = true;
+        while (running) {
+            System.out.println("\n--- Menu ---");
+            System.out.println("1. Emissione Biglietto da Distributore");
+            System.out.println("2. Emissione Biglietto da Rivenditore");
+            System.out.println("3. Emissione Abbonamento");
+            System.out.println("4. Verifica validità tessera");
+            System.out.println("5. Uscita");
+            System.out.print("Scegli un'operazione: ");
+            
             int scelta = scanner.nextInt();
-            scanner.nextLine();
             
             switch (scelta) {
                 case 1:
-                    if (utenteLoggato != null) {
-                        mostraInformazioniUtente();
-                    } else {
-                        loginUtente(scanner);
-                    }
+                    System.out.print("Inserisci la città del distributore: ");
+                    String cittaDistributore = scanner.next();
+                    System.out.print("Il distributore è attivo? (true/false): ");
+                    boolean attivoDistributore = scanner.nextBoolean();
+                    
+                    Distributore distributore = new Distributore(1L, cittaDistributore);
+                    distributore.setAttivo(attivoDistributore);
+                    
+                    Biglietto bigliettoDistributore = new Biglietto(distributore, LocalDate.now());
+                    em.getTransaction().begin();
+                    bigliettoDAO.insert(bigliettoDistributore);
+                    em.getTransaction().commit();
+                    
+                    System.out.println("Biglietto emesso con successo: " + bigliettoDistributore);
                     break;
+                
                 case 2:
-                    if (utenteLoggato != null) {
-                        interagisciConPuntiEmissione(scanner);
-                    } else {
-                        creaNuovoUtente(scanner);
-                    }
+                    System.out.print("Inserisci la città del rivenditore: ");
+                    String cittaRivenditore = scanner.next();
+                    System.out.print("Inserisci il nome del rivenditore: ");
+                    String nomeRivenditore = scanner.next();
+                    
+                    Rivenditore rivenditore = new Rivenditore(1L, cittaRivenditore, 12345, nomeRivenditore);
+                    
+                    Biglietto bigliettoRivenditore = new Biglietto(rivenditore, LocalDate.now());
+                    em.getTransaction().begin();
+                    bigliettoDAO.insert(bigliettoRivenditore);
+                    em.getTransaction().commit();
+                    
+                    System.out.println("Biglietto emesso con successo: " + bigliettoRivenditore);
                     break;
+                
                 case 3:
-                    if (utenteLoggato != null) {
-                        logoutUtente();
+                    System.out.print("Inserisci il tipo di abbonamento (SETTIMANALE/MENSILE): ");
+                    String tipoAbbonamento = scanner.next().toUpperCase();
+                    
+                    System.out.print("Inserisci la data di inizio (yyyy-mm-dd): ");
+                    String dataInizioString = scanner.next();
+                    LocalDate dataInizio = LocalDate.parse(dataInizioString);
+                    
+                    System.out.print("Inserisci la data di fine (yyyy-mm-dd): ");
+                    String dataFineString = scanner.next();
+                    LocalDate dataFine = LocalDate.parse(dataFineString);
+                    
+                    Tipologia tipologiaAbbonamento = Tipologia.valueOf(tipoAbbonamento);
+                    Abbonamento abbonamento = new Abbonamento(0L, tipologiaAbbonamento, dataInizio, dataFine);
+                    em.getTransaction().begin();
+                    abbonamentoDAO.insert(abbonamento);
+                    em.getTransaction().commit();
+                    
+                    System.out.println("Abbonamento emesso con successo: " + abbonamento);
+                    break;
+                
+                case 4:
+                    // Verifica validità tessera
+                    System.out.print("Inserisci il numero della tessera: ");
+                    int codiceTessera = scanner.nextInt();
+                    
+                    Tessera tesseraControllata = tesseraDAO.findById(codiceTessera);
+                    if (tesseraControllata != null) {
+                        System.out.println("Tessera valida: " + tesseraControllata);
                     } else {
-                        System.out.println("Arrivederci!");
-                        scanner.close();
-                        return;
+                        System.out.println("Tessera non valida.");
                     }
                     break;
-                case 4:
+                
+                case 5:
+                    running = false;
                     System.out.println("Arrivederci!");
-                    scanner.close();
-                    return;
+                    break;
+                
                 default:
-                    System.out.println("Opzione non valida, riprova.");
-            }
-        }
-    }
-    
-    private static void setupDB() {
-        Utente utente1 = new Utente("Mario", "Rossi", new Tessera(1, LocalDate.now().plusYears(1), null, null));
-        Utente utente2 = new Utente("Giulia", "Bianchi", new Tessera(2, LocalDate.now().plusYears(1), null, null));
-        
-        utenti.add(utente1);
-        utenti.add(utente2);
-        
-        Distributore distributore1 = new Distributore(1L, "Roma", true);
-        Distributore distributore2 = new Distributore(2L, "Milano", false);
-        Rivenditore rivenditore1 = new Rivenditore(3L, "Napoli", 101, "Rivenditore A", false);
-        Rivenditore rivenditore2 = new Rivenditore(4L, "Torino", 102, "Rivenditore B", true);
-        
-        puntiDiEmissione.add(distributore1);
-        puntiDiEmissione.add(distributore2);
-        puntiDiEmissione.add(rivenditore1);
-        puntiDiEmissione.add(rivenditore2);
-    }
-    
-    private static void loginUtente(Scanner scanner) {
-        System.out.println("Login Utente:");
-        System.out.print("Inserisci il nome: ");
-        String nome = scanner.nextLine();
-        System.out.print("Inserisci il cognome: ");
-        String cognome = scanner.nextLine();
-        
-        for (Utente utente : utenti) {
-            if (utente.getNome().equalsIgnoreCase(nome) && utente.getCognome().equalsIgnoreCase(cognome)) {
-                utenteLoggato = utente;
-                System.out.println("Login avvenuto con successo!");
-                return;
+                    System.out.println("Opzione non valida. Riprova.");
+                    break;
             }
         }
         
-        System.out.println("Utente non trovato.");
+        em.close();
+        emf.close();
     }
-    
-    private static void mostraInformazioniUtente() {
-        System.out.println("Informazioni utente:");
-        System.out.println("Nome: " + utenteLoggato.getNome());
-        System.out.println("Cognome: " + utenteLoggato.getCognome());
-        System.out.println("Codice Tessera: " + utenteLoggato.getTessera().getCodiceTessera());
-        System.out.println("Data di Scadenza: " + utenteLoggato.getTessera().getDataScadenza());
-    }
-    
-    private static void logoutUtente() {
-        System.out.println("Logout effettuato.");
-        utenteLoggato = null;
-    }
-    
-    private static void creaNuovoUtente(Scanner scanner) {
-        System.out.println("Crea un nuovo utente:");
-        System.out.print("Inserisci il nome: ");
-        String nome = scanner.nextLine();
-        System.out.print("Inserisci il cognome: ");
-        String cognome = scanner.nextLine();
-        System.out.print("Inserisci codice tessera (int): ");
-        int codiceTessera = scanner.nextInt();
-        scanner.nextLine();
-        
-        LocalDate dataScadenza = LocalDate.now().plusYears(1);
-        
-        Tessera tessera = new Tessera(codiceTessera, dataScadenza, null, null);
-        Utente nuovoUtente = new Utente(nome, cognome, tessera);
-        
-        utenti.add(nuovoUtente);
-        System.out.println("Nuovo utente creato con successo!");
-    }
-    
-    private static void interagisciConPuntiEmissione(Scanner scanner) {
-        while (true) {
-            System.out.println("Punti di emissione disponibili:");
-            for (int i = 0; i < puntiDiEmissione.size(); i++) {
-                PuntoDiEmissione punto = puntiDiEmissione.get(i);
-                if (punto instanceof Distributore) {
-                    Distributore distributore = (Distributore) punto;
-                    String statoDistributore = distributore.isAttivo() ? "Attivo" : "Distributore fuori servizio";
-                    System.out.println(i + 1 + ". Distributore a " + distributore.getCitta() + " (" + statoDistributore + ")");
-                } else if (punto instanceof Rivenditore) {
-                    Rivenditore rivenditore = (Rivenditore) punto;
-                    String statoRivenditore = rivenditore.isAttivo() ? "Attivo" : "Rivenditore fuori servizio";
-                    System.out.println(i + 1 + ". Rivenditore a " + rivenditore.getCitta() + " (" + statoRivenditore + ")");
-                }
-            }
-            
-            System.out.print("Scegli il punto di emissione (numero, 0 per tornare indietro): ");
-            int sceltaPunto = scanner.nextInt();
-            scanner.nextLine();
-            
-            if (sceltaPunto == 0) {
-                return;
-            }
-            
-            PuntoDiEmissione puntoScelto = puntiDiEmissione.get(sceltaPunto - 1);
-            
-            if (!puntoScelto.isAttivo()) {
-                System.out.println("Il punto di emissione scelto non è attivo.");
-                continue;
-            }
-            
-            Biglietto biglietto = new Biglietto();
-            biglietto.setPuntoDiEmissione(puntoScelto);
-            biglietto.setData_di_emissione(LocalDate.now());
-            System.out.println("Biglietto emesso con successo!");
-        }
-    }
-    
 }

@@ -34,22 +34,13 @@ public class Rivenditore extends PuntoDiEmissione {
         this.nomeRivenditore = nomeRivenditore;
     }
     
-    public boolean isAttivo() {
-        return attivo;
-    }
-    
-    public void setAttivo(boolean attivo) {
-        this.attivo = attivo;
-    }
-    
     public Rivenditore() {
     }
     
-    public Rivenditore(Long id, String citta, int codiceIdentificativo, String nomeRivenditore, boolean attivo) {
+    public Rivenditore(Long id, String citta, int codiceIdentificativo, String nomeRivenditore) {
         super(id, citta);
         this.codiceIdentificativo = codiceIdentificativo;
         this.nomeRivenditore = nomeRivenditore;
-        this.attivo = attivo;
     }
     
     @Override
@@ -57,8 +48,8 @@ public class Rivenditore extends PuntoDiEmissione {
         return "Rivenditore{" +
                 "codiceIdentificativo=" + codiceIdentificativo +
                 ", nomeRivenditore='" + nomeRivenditore + '\'' +
-                ", citta='" + getCitta() + '\'' +
-                ", attivo=" + (attivo ? "Attivo" : "Non disponibile") +
+                ", citta=" + getCitta() +
                 '}';
     }
 }
+

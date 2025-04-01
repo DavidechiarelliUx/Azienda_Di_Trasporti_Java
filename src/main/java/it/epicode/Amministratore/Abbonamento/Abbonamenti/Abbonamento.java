@@ -8,25 +8,24 @@ import java.time.LocalDate;
 @Entity
 @Table (name = "abbonamenti")
 public class Abbonamento {
-
+    
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Tipologia tipologia;
     
+    @Column(name = "data_inizio", nullable = false)
     private LocalDate dataInizio;
+    
+    @Column(name = "data_fine", nullable = false)
     private LocalDate dataFine;
-
+    
     @OneToOne
-    @JoinColumn (name = "tessera_id")
+    @JoinColumn(name = "tessera_id")
     private Tessera tessera;
-
-    public long getId() {
-        return id;
-    }
 
     public void setId(long id) {
         this.id = id;

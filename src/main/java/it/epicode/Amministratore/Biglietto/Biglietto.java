@@ -10,11 +10,13 @@ import java.time.LocalDate;
 @Table(name = "biglietti")
 public class Biglietto {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)  // Generazione automatica dell'ID
     private Long id;
+    
     @ManyToOne
     @JoinColumn(name = "punto_di_emissione_id", nullable = false)
     private PuntoDiEmissione puntoDiEmissione;
+    
     @Column(name = "data_di_emissione", nullable = false)
     private LocalDate data_di_emissione;
 

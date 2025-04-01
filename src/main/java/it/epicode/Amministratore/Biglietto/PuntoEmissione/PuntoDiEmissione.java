@@ -10,14 +10,14 @@ import java.util.List;
 @Table(name = "punti_di_emissione")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class PuntoDiEmissione {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
+    
     @Column(name = "citta", nullable = false)
     private String citta;
-
+    
     @OneToMany(mappedBy = "puntoDiEmissione")
     private List<Biglietto> biglietti = new ArrayList<>();
 

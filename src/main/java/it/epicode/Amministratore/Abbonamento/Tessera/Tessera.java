@@ -8,17 +8,18 @@ import jakarta.persistence.GenerationType;
 import java.time.LocalDate;
 
 @Entity
-@Table (name = "tessera")
+@Table(name = "tessera")
 public class Tessera {
-
+    
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int codiceTessera;
-
-    @Column (nullable = false)
+    
+    @Column(nullable = false)
     private LocalDate dataScadenza;
-
+    
     @OneToOne
+    @JoinColumn(name = "abbonamento_id")
     private Abbonamento abbonamento;
     
     @OneToOne(mappedBy = "tessera", cascade = CascadeType.ALL)
@@ -64,6 +65,11 @@ public class Tessera {
     }
 
     public Tessera() {
+    }
+    
+    public Tessera(Utente utente) {
+        this.utente = utente;
+        this.dataScadenza = LocalDate.now().plusYears(1);
     }
 
     @Override
