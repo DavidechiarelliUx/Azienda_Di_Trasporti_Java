@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 
 public class MezzoInServizioDAO {
 
-    EntityManager   em;
+    EntityManager em;
 
     public MezzoInServizioDAO(EntityManager em) {
         this.em = em;

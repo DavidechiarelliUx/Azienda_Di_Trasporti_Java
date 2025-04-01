@@ -1,6 +1,7 @@
 package it.epicode.Mezzi.StatoMezzo;
 
 import it.epicode.Mezzi.Mezzo;
+import it.epicode.Mezzi.TipoMezzo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -8,44 +9,48 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table (name = "mezzi_in_servizio")
+@Table(name = "mezzi_in_servizio")
 public class MezzoInServizio extends Mezzo {
-
-    @Column  (nullable = false)
+    
+    @Column(nullable = true)
     private LocalDate dataInizioServizio;
-
-    @Column  (nullable = true)
+    
+    @Column(nullable = true)
     private LocalDate dataFineServizio;
-
-
-    public LocalDate getDataFineServizio() {
-        return dataFineServizio;
-    }
-
-    public void setDataFineServizio(LocalDate dataFineServizio) {
+    
+    public MezzoInServizio(int capienzaMax, TipoMezzo tipoMezzo, LocalDate dataInizioServizio, LocalDate dataFineServizio) {
+        super(capienzaMax, tipoMezzo);
+        this.dataInizioServizio = dataInizioServizio;
         this.dataFineServizio = dataFineServizio;
     }
-
+    
+    public MezzoInServizio() {
+    }
+    
     public LocalDate getDataInizioServizio() {
         return dataInizioServizio;
     }
-
+    
     public void setDataInizioServizio(LocalDate dataInizioServizio) {
         this.dataInizioServizio = dataInizioServizio;
     }
-
-
-    public MezzoInServizio(LocalDate dataFineServizio, LocalDate dataInizioServizio) {
-
-        this.dataFineServizio = dataFineServizio;
-        this.dataInizioServizio = dataInizioServizio;
+    
+    public LocalDate getDataFineServizio() {
+        return dataFineServizio;
     }
-
-    public MezzoInServizio () {
-    }
-    public MezzoInServizio(Long id, int capienzaMax, LocalDate dataInizioServizio, LocalDate dataFineServizio) {
-        super(id, capienzaMax);
-        this.dataInizioServizio = dataInizioServizio;
+    
+    public void setDataFineServizio(LocalDate dataFineServizio) {
         this.dataFineServizio = dataFineServizio;
+    }
+    
+    @Override
+    public String toString() {
+        return "MezzoInServizio{" +
+                "id=" + getId() +
+                ", capienzaMax=" + getCapienzaMax() +
+                ", tipoMezzo=" + getTipoMezzo() +
+                ", dataInizioServizio=" + dataInizioServizio +
+                ", dataFineServizio=" + dataFineServizio +
+                '}';
     }
 }
