@@ -4,20 +4,28 @@ import jakarta.persistence.EntityManager;
 
 
 public class BigliettoDAO {
-
-private EntityManager em;
-
+    private EntityManager em;
+    
     public BigliettoDAO(EntityManager em) {
         this.em = em;
     }
-    public Biglietto findById(long id){
+    
+    public void insert(Biglietto biglietto) {
+        em.persist(biglietto);
+    }
+    
+    public Biglietto findById(Long id) {
         return em.find(Biglietto.class, id);
     }
-    public void insert (Biglietto biglietto){
-      em.persist(biglietto);
-    }
-    public void delete (Biglietto biglietto){
-
-        em.remove(biglietto);
+    
+    public void vidimaBiglietto(Long id) {
+        Biglietto biglietto = findById(id);
+        if (biglietto != null && !biglietto.isVidimato()) {
+            biglietto.setVidimato(true);
+            em.merge(biglietto);
+            System.out.println("Biglietto " + id + " vidimato con successo!");
+        } else {
+            System.out.println("Errore: Biglietto non trovato o già vidimato.");
+        }
     }
 }

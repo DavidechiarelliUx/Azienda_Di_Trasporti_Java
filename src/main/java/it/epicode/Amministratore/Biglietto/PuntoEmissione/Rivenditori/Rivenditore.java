@@ -15,9 +15,7 @@ public class Rivenditore extends PuntoDiEmissione {
     @Column(name = "nome_rivenditore", nullable = false)
     private String nomeRivenditore;
     
-    @Column(name = "attivo", nullable = false)
-    private boolean attivo;
-    
+
     public int getCodiceIdentificativo() {
         return codiceIdentificativo;
     }

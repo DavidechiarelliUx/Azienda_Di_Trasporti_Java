@@ -40,7 +40,7 @@ public class MainNewDatabase {
         em.merge(rivenditore2);
         
         Distributore distributore1 = new Distributore(3L, "Napoli", true);
-        Distributore distributore2 = new Distributore(4L, "Torino", false); // Fuori servizio
+        Distributore distributore2 = new Distributore(4L, "Torino", false);
         
         em.merge(distributore1);
         em.merge(distributore2);
