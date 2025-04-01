@@ -91,7 +91,7 @@ public class MainProgramma {
         
         boolean running = true;
         while (running) {
-            System.out.println("\n--- Menu ---");
+            System.out.println("--- Menu ---");
             System.out.println("1. Emissione Biglietto da Distributore");
             System.out.println("2. Emissione Biglietto da Rivenditore");
             System.out.println("3. Emissione Abbonamento");
@@ -157,7 +157,6 @@ public class MainProgramma {
                     break;
                 
                 case 4:
-                    // Verifica validità tessera
                     System.out.print("Inserisci il numero della tessera: ");
                     int codiceTessera = scanner.nextInt();
                     
