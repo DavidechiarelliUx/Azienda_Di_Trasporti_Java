@@ -1,10 +1,13 @@
 package it.epicode.Mezzi;
 
+import it.epicode.Mezzi.StatoMezzo.MezzoInManutenzione;
+import it.epicode.Mezzi.StatoMezzo.MezzoInServizio;
 import jakarta.persistence.*;
 import jakarta.persistence.GenerationType;
 
 @Entity
 @Table(name = "mezzi")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Mezzo {
 
     @Id
@@ -13,8 +16,7 @@ public class Mezzo {
 
     @Column(name = "capienza_max",  nullable = false)
     private int capienzaMax;
-    @Column(name = "stato_servizio", nullable = false)
-    private boolean statoServizio;
+
     @Enumerated(EnumType.STRING)
     private TipoMezzo tipoMezzo;
 
@@ -34,13 +36,6 @@ public class Mezzo {
         this.capienzaMax = capienzaMax;
     }
 
-    public boolean isStatoServizio() {
-        return statoServizio;
-    }
-
-    public void setStatoServizio(boolean statoServizio) {
-        this.statoServizio = statoServizio;
-    }
 
     public TipoMezzo getTipoMezzo() {
         return tipoMezzo;
@@ -49,10 +44,9 @@ public class Mezzo {
     public void setTipoMezzo(TipoMezzo tipoMezzo) {
         this.tipoMezzo = tipoMezzo;
     }
-    public Mezzo(Long id, int capienzaMax, boolean statoServizio, TipoMezzo tipoMezzo) {
+    public Mezzo(Long id, int capienzaMax,  TipoMezzo tipoMezzo) {
         this.id = id;
         this.capienzaMax = capienzaMax;
-        this.statoServizio = statoServizio;
         this.tipoMezzo = tipoMezzo;
     }
     public Mezzo() {
@@ -62,7 +56,6 @@ public class Mezzo {
         return "Mezzo{" +
                 "id=" + id +
                 ", capienzaMax=" + capienzaMax +
-                ", statoServizio=" + statoServizio +
                 ", tipoMezzo=" + tipoMezzo +
                 '}';
     }
