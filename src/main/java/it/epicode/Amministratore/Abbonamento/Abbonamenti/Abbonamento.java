@@ -1,6 +1,7 @@
 package it.epicode.Amministratore.Abbonamento.Abbonamenti;
 
 import it.epicode.Amministratore.Abbonamento.Tessera.Tessera;
+import it.epicode.Amministratore.Biglietto.PuntoEmissione.PuntoDiEmissione;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -26,9 +27,17 @@ public class Abbonamento {
     @OneToOne
     @JoinColumn(name = "tessera_id")
     private Tessera tessera;
-
-    public void setId(long id) {
+    
+    @ManyToOne
+    @JoinColumn(name = "punto_emissione_id")
+    private PuntoDiEmissione puntoEmissione;
+    
+    public Abbonamento(long id, Tipologia tipologia, LocalDate dataInizio, LocalDate dataFine, PuntoDiEmissione puntoEmissione) {
         this.id = id;
+        this.tipologia = tipologia;
+        this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
+        this.puntoEmissione = puntoEmissione;
     }
 
     public Tipologia getTipologia() {
@@ -55,16 +64,9 @@ public class Abbonamento {
         this.dataFine = dataFine;
     }
 
-    public Abbonamento(long id, Tipologia tipologia, LocalDate dataInizio, LocalDate dataFine) {
-        this.id = id;
-        this.tipologia = tipologia;
-        this.dataInizio = dataInizio;
-        this.dataFine = dataFine;
-    }
-
     public Abbonamento() {
     }
-
+    
     @Override
     public String toString() {
         return "Abbonamento{" +
@@ -72,6 +74,7 @@ public class Abbonamento {
                 ", tipologia=" + tipologia +
                 ", dataInizio=" + dataInizio +
                 ", dataFine=" + dataFine +
+                ", puntoEmissione=" + (puntoEmissione != null ? puntoEmissione.getCitta() : "Non specificato") +
                 '}';
     }
 }

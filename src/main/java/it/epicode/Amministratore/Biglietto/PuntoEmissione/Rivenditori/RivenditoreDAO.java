@@ -2,6 +2,9 @@ package it.epicode.Amministratore.Biglietto.PuntoEmissione.Rivenditori;
 
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.Distributori.Distributore;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+
+import java.util.List;
 
 public class RivenditoreDAO {
 
@@ -20,5 +23,11 @@ public class RivenditoreDAO {
 
     public void delete(Rivenditore rivenditore){
         em.remove(rivenditore);
+    }
+    
+    public List<Rivenditore> getRivenditori() {
+        String query = "SELECT r FROM Rivenditore r";
+        TypedQuery<Rivenditore> typedQuery = em.createQuery(query, Rivenditore.class);
+        return typedQuery.getResultList();
     }
 }

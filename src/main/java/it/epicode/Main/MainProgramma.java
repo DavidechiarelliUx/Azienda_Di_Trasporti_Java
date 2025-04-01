@@ -8,8 +8,11 @@ import it.epicode.Amministratore.Abbonamento.Tessera.TesseraDAO;
 import it.epicode.Amministratore.Biglietto.Biglietto;
 import it.epicode.Amministratore.Biglietto.BigliettoDAO;
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.Distributori.Distributore;
+import it.epicode.Amministratore.Biglietto.PuntoEmissione.Distributori.DistributoreDAO;
+import it.epicode.Amministratore.Biglietto.PuntoEmissione.PuntoDiEmissioneDAO;
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.Rivenditori.Rivenditore;
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.PuntoDiEmissione;
+import it.epicode.Amministratore.Biglietto.PuntoEmissione.Rivenditori.RivenditoreDAO;
 import it.epicode.Amministratore.Utente.Utente;
 import it.epicode.Amministratore.Utente.UtenteDAO;
 import jakarta.persistence.EntityManager;
@@ -17,6 +20,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainProgramma {
@@ -29,8 +33,12 @@ public class MainProgramma {
         TesseraDAO tesseraDAO = new TesseraDAO(em);
         AbbonamentoDAO abbonamentoDAO = new AbbonamentoDAO(em);
         BigliettoDAO bigliettoDAO = new BigliettoDAO(em);
+        DistributoreDAO distributoreDAO = new DistributoreDAO(em);
+        RivenditoreDAO rivenditoreDAO = new RivenditoreDAO(em);
+        PuntoDiEmissioneDAO puntoDiEmissioneDAO = new PuntoDiEmissioneDAO(em);
         
         Scanner scanner = new Scanner(System.in);
+        
         boolean loggedIn = false;
         Utente utenteLoggato = null;
         
@@ -97,66 +105,190 @@ public class MainProgramma {
             System.out.println("3. Emissione Abbonamento");
             System.out.println("4. Verifica validità tessera");
             System.out.println("5. Vidimazione biglietto");
-            System.out.println("6. Uscita");
+            System.out.println("6. Conta Biglietti e Abbonamenti");
+            System.out.println("0. Uscita");
             System.out.print("Scegli un'operazione: ");
             
             int scelta = scanner.nextInt();
             
             switch (scelta) {
                 case 1:
-                    System.out.print("Inserisci la città del distributore: ");
-                    String cittaDistributore = scanner.next();
-                    System.out.print("Il distributore è attivo? (true/false): ");
-                    boolean attivoDistributore = scanner.nextBoolean();
+                    List<Distributore> distributori = distributoreDAO.getDistributori();
                     
-                    Distributore distributore = new Distributore(1L, cittaDistributore);
-                    distributore.setAttivo(attivoDistributore);
+                    if (distributori.isEmpty()) {
+                        System.out.println("Nessun distributore disponibile.");
+                        break;
+                    }
                     
-                    Biglietto bigliettoDistributore = new Biglietto(distributore, LocalDate.now());
+                    System.out.println("Elenco Distributori:");
+                    for (int i = 0; i < distributori.size(); i++) {
+                        System.out.println((i + 1) + ". " + distributori.get(i).getCitta() + " (Attivo: " + distributori.get(i).isAttivo() + ")");
+                    }
+                    
+                    System.out.print("Seleziona un distributore (1-" + distributori.size() + "): ");
+                    int distributoreScelta = scanner.nextInt();
+                    if (distributoreScelta < 1 || distributoreScelta > distributori.size()) {
+                        System.out.println("Scelta non valida.");
+                        break;
+                    }
+                    
+                    Distributore distributoreSelezionato = distributori.get(distributoreScelta - 1);
+                    if (!distributoreSelezionato.isAttivo()) {
+                        System.out.println("Errore: Il distributore è fuori servizio.");
+                        break;
+                    }
+                    
+                    Biglietto bigliettoDistributore = new Biglietto(distributoreSelezionato, LocalDate.now());
                     em.getTransaction().begin();
                     bigliettoDAO.insert(bigliettoDistributore);
                     em.getTransaction().commit();
                     
-                    System.out.println("Biglietto emesso con successo: " + bigliettoDistributore);
+                    System.out.println("Biglietto emesso con successo! ID: " + bigliettoDistributore.getId());
                     break;
                 
                 case 2:
-                    System.out.print("Inserisci la città del rivenditore: ");
-                    String cittaRivenditore = scanner.next();
-                    System.out.print("Inserisci il nome del rivenditore: ");
-                    String nomeRivenditore = scanner.next();
+                    List<Rivenditore> rivenditori = rivenditoreDAO.getRivenditori();
+                    if (rivenditori.isEmpty()) {
+                        System.out.println("Nessun rivenditore disponibile.");
+                        break;
+                    }
                     
-                    Rivenditore rivenditore = new Rivenditore(1L, cittaRivenditore, 12345, nomeRivenditore);
+                    System.out.println("Elenco Rivenditori:");
+                    for (int i = 0; i < rivenditori.size(); i++) {
+                        System.out.println((i + 1) + ". " + rivenditori.get(i).getNomeRivenditore() + " - " + rivenditori.get(i).getCitta());
+                    }
                     
-                    Biglietto bigliettoRivenditore = new Biglietto(rivenditore, LocalDate.now());
+                    System.out.print("Seleziona un rivenditore (1-" + rivenditori.size() + "): ");
+                    int rivenditoreScelta = scanner.nextInt();
+                    if (rivenditoreScelta < 1 || rivenditoreScelta > rivenditori.size()) {
+                        System.out.println("Scelta non valida.");
+                        break;
+                    }
+                    
+                    Rivenditore rivenditoreSelezionato = rivenditori.get(rivenditoreScelta - 1);
+                    Biglietto bigliettoRivenditore = new Biglietto(rivenditoreSelezionato, LocalDate.now());
+                    
                     em.getTransaction().begin();
                     bigliettoDAO.insert(bigliettoRivenditore);
                     em.getTransaction().commit();
                     
-                    System.out.println("Biglietto emesso con successo: " + bigliettoRivenditore);
+                    System.out.println("Biglietto emesso con successo! ID: " + bigliettoRivenditore.getId());
                     break;
                 
                 case 3:
-                    System.out.print("Inserisci il tipo di abbonamento (SETTIMANALE/MENSILE): ");
-                    String tipoAbbonamento = scanner.next().toUpperCase();
+                    if (utenteLoggato.getTessera() == null) {
+                        System.out.println("Errore: Devi avere una tessera per acquistare un abbonamento.");
+                        break;
+                    }
                     
-                    System.out.print("Inserisci la data di inizio (yyyy-mm-dd): ");
-                    String dataInizioString = scanner.next();
-                    LocalDate dataInizio = LocalDate.parse(dataInizioString);
+                    Abbonamento abbonamentoAttivo = abbonamentoDAO.findById(utenteLoggato.getTessera().getCodiceTessera());
+                    if (abbonamentoAttivo != null) {
+                        System.out.println("Hai già un abbonamento attivo fino al " + abbonamentoAttivo.getDataFine());
+                        break;
+                    }
                     
-                    System.out.print("Inserisci la data di fine (yyyy-mm-dd): ");
-                    String dataFineString = scanner.next();
-                    LocalDate dataFine = LocalDate.parse(dataFineString);
+                    System.out.println("--- Seleziona Punto di Emissione ---");
+                    System.out.println("1. Distributore");
+                    System.out.println("2. Rivenditore");
+                    System.out.print("Scegli un punto di emissione (1-2): ");
+                    int puntoEmissioneScelta = scanner.nextInt();
                     
-                    Tipologia tipologiaAbbonamento = Tipologia.valueOf(tipoAbbonamento);
-                    Abbonamento abbonamento = new Abbonamento(0L, tipologiaAbbonamento, dataInizio, dataFine);
-                    em.getTransaction().begin();
-                    abbonamentoDAO.insert(abbonamento);
-                    em.getTransaction().commit();
-                    
-                    System.out.println("Abbonamento emesso con successo: " + abbonamento);
+                    if (puntoEmissioneScelta == 1) {
+                        List<Distributore> distributoriList = distributoreDAO.getDistributori();
+                        if (distributoriList.isEmpty()) {
+                            System.out.println("Nessun distributore disponibile.");
+                            break;
+                        }
+                        
+                        System.out.println("Elenco Distributori:");
+                        for (int i = 0; i < distributoriList.size(); i++) {
+                            System.out.println((i + 1) + ". " + distributoriList.get(i).getCitta() + " (Attivo: " + distributoriList.get(i).isAttivo() + ")");
+                        }
+                        
+                        System.out.print("Seleziona un distributore (1-" + distributoriList.size() + "): ");
+                        int distributoreSceltaAbbo = scanner.nextInt();
+                        if (distributoreSceltaAbbo < 1 || distributoreSceltaAbbo > distributoriList.size()) {
+                            System.out.println("Scelta non valida.");
+                            break;
+                        }
+                        
+                        Distributore distributoreSelezionatoAbbo = distributoriList.get(distributoreSceltaAbbo - 1);
+                        if (!distributoreSelezionatoAbbo.isAttivo()) {
+                            System.out.println("Errore: Il distributore è fuori servizio.");
+                            break;
+                        }
+                        
+                        System.out.print("Inserisci il tipo di abbonamento (SETTIMANALE/MENSILE): ");
+                        String tipoAbbonamento = scanner.next().toUpperCase();
+                        
+                        LocalDate dataInizio = LocalDate.now();
+                        LocalDate dataFine;
+                        
+                        if (tipoAbbonamento.equals("SETTIMANALE")) {
+                            dataFine = dataInizio.plusWeeks(1);
+                        } else if (tipoAbbonamento.equals("MENSILE")) {
+                            dataFine = dataInizio.plusMonths(1);
+                        } else {
+                            System.out.println("Errore: Tipo di abbonamento non valido.");
+                            break;
+                        }
+                        
+                        Abbonamento nuovoAbbonamento = new Abbonamento(utenteLoggato.getTessera().getCodiceTessera(), Tipologia.valueOf(tipoAbbonamento), dataInizio, dataFine, distributoreSelezionatoAbbo);
+                        
+                        em.getTransaction().begin();
+                        abbonamentoDAO.merge(nuovoAbbonamento);
+                        em.getTransaction().commit();
+                        
+                        System.out.println("Abbonamento emesso con successo! Scadenza: " + dataFine);
+                    } else if (puntoEmissioneScelta == 2) {
+                        List<Rivenditore> rivenditoriList = rivenditoreDAO.getRivenditori();
+                        if (rivenditoriList.isEmpty()) {
+                            System.out.println("Nessun rivenditore disponibile.");
+                            break;
+                        }
+                        
+                        System.out.println("Elenco Rivenditori:");
+                        for (int i = 0; i < rivenditoriList.size(); i++) {
+                            System.out.println((i + 1) + ". " + rivenditoriList.get(i).getNomeRivenditore() + " - " + rivenditoriList.get(i).getCitta());
+                        }
+                        
+                        System.out.print("Seleziona un rivenditore (1-" + rivenditoriList.size() + "): ");
+                        int rivenditoreSceltaAbbo = scanner.nextInt();
+                        if (rivenditoreSceltaAbbo < 1 || rivenditoreSceltaAbbo > rivenditoriList.size()) {
+                            System.out.println("Scelta non valida.");
+                            break;
+                        }
+                        
+                        Rivenditore rivenditoreSelezionatoAbbo = rivenditoriList.get(rivenditoreSceltaAbbo - 1);
+                        
+                        System.out.print("Inserisci il tipo di abbonamento (SETTIMANALE/MENSILE): ");
+                        String tipoAbbonamento = scanner.next().toUpperCase();
+                        
+                        LocalDate dataInizio = LocalDate.now();
+                        LocalDate dataFine;
+                        
+                        if (tipoAbbonamento.equals("SETTIMANALE")) {
+                            dataFine = dataInizio.plusWeeks(1);
+                        } else if (tipoAbbonamento.equals("MENSILE")) {
+                            dataFine = dataInizio.plusMonths(1);
+                        } else {
+                            System.out.println("Errore: Tipo di abbonamento non valido.");
+                            break;
+                        }
+                        
+                        Abbonamento nuovoAbbonamento = new Abbonamento(utenteLoggato.getTessera().getCodiceTessera(), Tipologia.valueOf(tipoAbbonamento), dataInizio, dataFine, rivenditoreSelezionatoAbbo);
+                        
+                        em.getTransaction().begin();
+                        abbonamentoDAO.merge(nuovoAbbonamento);
+                        em.getTransaction().commit();
+                        
+                        System.out.println("Abbonamento emesso con successo! Scadenza: " + dataFine);
+                    } else {
+                        System.out.println("Scelta non valida.");
+                        break;
+                    }
                     break;
-                
+                    
                 case 4:
                     System.out.print("Inserisci il numero della tessera: ");
                     int codiceTessera = scanner.nextInt();
@@ -170,24 +302,59 @@ public class MainProgramma {
                     break;
                 
                 case 5:
-                    em.getTransaction().begin();
                     System.out.print("Inserisci l'ID del biglietto da vidimare: ");
                     Long idBiglietto = scanner.nextLong();
+                    if (idBiglietto == null || idBiglietto <= 0) {
+                        System.out.println("ID non valido.");
+                        break;
+                    }
+                    em.getTransaction().begin();
                     bigliettoDAO.vidimaBiglietto(idBiglietto);
                     em.getTransaction().commit();
                     break;
                 
                 case 6:
-                    running = false;
-                    System.out.println("Arrivederci!");
+                    System.out.println("--- Conta Biglietti e Abbonamenti ---");
+                    System.out.print("Inserisci la data di inizio (formato YYYY-MM-DD): ");
+                    String dataInizioString = scanner.next();
+                    LocalDate dataInizio = LocalDate.parse(dataInizioString);
+                    
+                    System.out.print("Inserisci la data di fine (formato YYYY-MM-DD): ");
+                    String dataFineString = scanner.next();
+                    LocalDate dataFine = LocalDate.parse(dataFineString);
+                    
+                    int totalBiglietti = bigliettoDAO.countBigliettiByPeriodo(dataInizio, dataFine);
+                    int totalAbbonamenti = abbonamentoDAO.countAbbonamentiByPeriodo(dataInizio, dataFine);
+                    
+                    System.out.println("Totale Biglietti emessi: " + totalBiglietti);
+                    System.out.println("Totale Abbonamenti emessi: " + totalAbbonamenti);
+                    
+                    System.out.print("Seleziona un punto di emissione (ID): ");
+                    long puntoEmissioneId = scanner.nextLong();
+                    PuntoDiEmissione puntoEmissione = puntoDiEmissioneDAO.findById(puntoEmissioneId);
+                    
+                    if (puntoEmissione != null) {
+                        int bigliettiPerPunto = bigliettoDAO.countBigliettiByPuntoDiEmissioneAndPeriodo(puntoEmissione, dataInizio, dataFine);
+                        int abbonamentiPerPunto = abbonamentoDAO.countAbbonamentiByPuntoDiEmissioneAndPeriodo(puntoEmissione, dataInizio, dataFine);
+                        
+                        System.out.println("Biglietti emessi dal punto di emissione (" + puntoEmissione.getCitta() + "): " + bigliettiPerPunto);
+                        System.out.println("Abbonamenti emessi dal punto di emissione (" + puntoEmissione.getCitta() + "): " + abbonamentiPerPunto);
+                    } else {
+                        System.out.println("Punto di emissione non trovato.");
+                    }
                     break;
-
+                
+                case 0:
+                    running = false;
+                    break;
+                
                 default:
                     System.out.println("Opzione non valida. Riprova.");
                     break;
             }
         }
         
+        scanner.close();
         em.close();
         emf.close();
     }
