@@ -16,15 +16,17 @@ public class BigliettoDAO {
     public Biglietto findById(Long id) {
         return em.find(Biglietto.class, id);
     }
-    
-    public void vidimaBiglietto(Long id) {
-        Biglietto biglietto = findById(id);
-        if (biglietto != null && !biglietto.isVidimato()) {
-            biglietto.setVidimato(true);
-            em.merge(biglietto);
-            System.out.println("Biglietto " + id + " vidimato con successo!");
-        } else {
-            System.out.println("Errore: Biglietto non trovato o già vidimato.");
-        }
+
+    public void update (Biglietto biglietto){
+        em.merge(biglietto);
+    }
+
+   public void vidimaBiglietto(Long id) {Biglietto biglietto = findById(id);if (biglietto != null && !biglietto.isVidimato()) {
+       biglietto.setVidimato(true);
+       em.merge(biglietto);
+       System.out.println("Biglietto " + id + " vidimato con successo!");
+   } else {
+       System.out.println("Errore: Biglietto non trovato o già vidimato.");
+      }
     }
 }

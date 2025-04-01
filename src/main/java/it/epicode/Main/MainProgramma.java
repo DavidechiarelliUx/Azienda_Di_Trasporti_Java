@@ -181,7 +181,7 @@ public class MainProgramma {
                     running = false;
                     System.out.println("Arrivederci!");
                     break;
-                
+
                 default:
                     System.out.println("Opzione non valida. Riprova.");
                     break;
