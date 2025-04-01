@@ -20,6 +20,16 @@ public class Biglietto {
     @Column(name = "data_di_emissione", nullable = false)
     private LocalDate data_di_emissione;
 
+    @Column(name = "vidimato", nullable = true)
+    private static boolean vidimato = false;
+
+    public static boolean isVidimato() {
+        return vidimato;
+    }
+
+    public static void setVidimato(boolean vidimato) {
+        Biglietto.vidimato = vidimato;
+    }
 
     public Long getId() {
         return id;
@@ -48,9 +58,10 @@ public class Biglietto {
     public Biglietto() {
     }
     
-    public Biglietto(PuntoDiEmissione puntoDiEmissione, LocalDate data_di_emissione) {
+    public Biglietto(PuntoDiEmissione puntoDiEmissione, LocalDate data_di_emissione, boolean  vidimato) {
         this.puntoDiEmissione = puntoDiEmissione;
         this.data_di_emissione = data_di_emissione;
+        this.vidimato = vidimato;
     }
 
     @Override

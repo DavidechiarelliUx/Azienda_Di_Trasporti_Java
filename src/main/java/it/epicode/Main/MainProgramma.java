@@ -111,7 +111,7 @@ public class MainProgramma {
                     Distributore distributore = new Distributore(1L, cittaDistributore);
                     distributore.setAttivo(attivoDistributore);
                     
-                    Biglietto bigliettoDistributore = new Biglietto(distributore, LocalDate.now());
+                    Biglietto bigliettoDistributore = new Biglietto(distributore, LocalDate.now(), false);
                     em.getTransaction().begin();
                     bigliettoDAO.insert(bigliettoDistributore);
                     em.getTransaction().commit();
@@ -127,7 +127,7 @@ public class MainProgramma {
                     
                     Rivenditore rivenditore = new Rivenditore(1L, cittaRivenditore, 12345, nomeRivenditore);
                     
-                    Biglietto bigliettoRivenditore = new Biglietto(rivenditore, LocalDate.now());
+                    Biglietto bigliettoRivenditore = new Biglietto(rivenditore, LocalDate.now(), false);
                     em.getTransaction().begin();
                     bigliettoDAO.insert(bigliettoRivenditore);
                     em.getTransaction().commit();

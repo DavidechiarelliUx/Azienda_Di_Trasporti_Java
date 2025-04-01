@@ -20,4 +20,13 @@ private EntityManager em;
 
         em.remove(biglietto);
     }
+
+    public void update (Biglietto biglietto){
+        em.merge(biglietto);
+    }
+
+    public static void setVidimato(Long idBiglietto, boolean vidimato) {
+        Biglietto biglietto = findById(idBiglietto);
+        biglietto.setVidimato(vidimato);
+    }
 }
