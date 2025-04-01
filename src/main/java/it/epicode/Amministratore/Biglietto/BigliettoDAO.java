@@ -2,7 +2,6 @@ package it.epicode.Amministratore.Biglietto;
 
 import jakarta.persistence.EntityManager;
 
-
 public class BigliettoDAO {
     private EntityManager em;
     
