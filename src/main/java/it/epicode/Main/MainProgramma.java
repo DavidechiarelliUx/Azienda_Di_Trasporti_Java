@@ -96,7 +96,8 @@ public class MainProgramma {
             System.out.println("2. Emissione Biglietto da Rivenditore");
             System.out.println("3. Emissione Abbonamento");
             System.out.println("4. Verifica validità tessera");
-            System.out.println("5. Uscita");
+            System.out.println("5. Vidimazione biglietto");
+            System.out.println("6. Uscita");
             System.out.print("Scegli un'operazione: ");
             
             int scelta = scanner.nextInt();
@@ -169,6 +170,14 @@ public class MainProgramma {
                     break;
                 
                 case 5:
+                    em.getTransaction().begin();
+                    System.out.print("Inserisci l'ID del biglietto da vidimare: ");
+                    Long idBiglietto = scanner.nextLong();
+                    bigliettoDAO.vidimaBiglietto(idBiglietto);
+                    em.getTransaction().commit();
+                    break;
+                
+                case 6:
                     running = false;
                     System.out.println("Arrivederci!");
                     break;
