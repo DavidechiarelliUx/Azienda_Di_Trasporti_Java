@@ -10,59 +10,44 @@ import java.time.LocalDate;
 @Table(name = "biglietti")
 public class Biglietto {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)  // Generazione automatica dell'ID
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    
+
     @ManyToOne
     @JoinColumn(name = "punto_di_emissione_id", nullable = false)
     private PuntoDiEmissione puntoDiEmissione;
-    
+
     @Column(name = "data_di_emissione", nullable = false)
     private LocalDate data_di_emissione;
 
-    @Column(name = "vidimato", nullable = true)
-    private static boolean vidimato = false;
+    @Column(name = "vidimato")
+    private Boolean vidimato = false;
 
-    public static boolean isVidimato() {
-        return vidimato;
-    }
+    public Biglietto() {}
 
-    public static void setVidimato(boolean vidimato) {
-        Biglietto.vidimato = vidimato;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public PuntoDiEmissione getPuntoDiEmissione() {
-        return puntoDiEmissione;
-    }
-
-    public void setPuntoDiEmissione(PuntoDiEmissione puntoDiEmissione) {
-        this.puntoDiEmissione = puntoDiEmissione;
-    }
-
-    public LocalDate getData_di_emissione() {
-        return data_di_emissione;
-    }
-
-    public void setData_di_emissione(LocalDate data_di_emissione) {
-        this.data_di_emissione = data_di_emissione;
-    }
-
-    public Biglietto() {
-    }
-    
-    public Biglietto(PuntoDiEmissione puntoDiEmissione, LocalDate data_di_emissione, boolean  vidimato) {
+    public Biglietto(PuntoDiEmissione puntoDiEmissione, LocalDate data_di_emissione) {
         this.puntoDiEmissione = puntoDiEmissione;
         this.data_di_emissione = data_di_emissione;
-        this.vidimato = vidimato;
+        this.vidimato = false;
     }
+
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
+
+    public PuntoDiEmissione getPuntoDiEmissione() { return puntoDiEmissione; }
+
+    public void setPuntoDiEmissione(PuntoDiEmissione puntoDiEmissione) { this.puntoDiEmissione = puntoDiEmissione; }
+
+    public LocalDate getData_di_emissione() { return data_di_emissione; }
+
+    public void setData_di_emissione(LocalDate data_di_emissione) { this.data_di_emissione = data_di_emissione; }
+
+    public boolean isVidimato() {
+        return Boolean.TRUE.equals(this.vidimato);
+    }
+
+    public void setVidimato(boolean vidimato) { this.vidimato = vidimato; }
 
     @Override
     public String toString() {
@@ -70,6 +55,7 @@ public class Biglietto {
                 "id=" + id +
                 ", puntoDiEmissione=" + puntoDiEmissione +
                 ", data_di_emissione=" + data_di_emissione +
+                ", vidimato=" + vidimato +
                 '}';
     }
 }

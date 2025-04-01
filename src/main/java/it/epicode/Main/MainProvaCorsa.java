@@ -66,30 +66,24 @@ public class MainProvaCorsa {
                                     break;
                                 case 2 :
                                     System.out.println("hai scelto biglietto");
-                                    System.out.println("inserisci il codice del biglietto");
-                                    Long codiceBiglietto = scanner.nextLong();
-
-                                    scanner.nextLine();
-                                    System.out.println("verifica del biglietto in corso ...." + codiceBiglietto + " " + Biglietto.isVidimato());
-                                    //trasforma il biglietto vidimato da true a false
-                                    Biglietto.setVidimato(true);
                                     em.getTransaction().begin();
-                                    BigliettoDAO.setVidimato(codiceBiglietto, true);
+                                    System.out.print("Inserisci l'ID del biglietto da vidimare: ");
+                                    Long codiceBiglietto = scanner.nextLong();
+                                    scanner.nextLine();
+                                    System.out.println("verifica del biglietto in corso ....");
+                                    bigliettoDAO.vidimaBiglietto(codiceBiglietto);
                                     em.getTransaction().commit();
 
-
-
-                                    System.out.println("Il seguente biglietto è stato vidimato : " + codiceBiglietto +" :  "+ Biglietto.isVidimato());
                                     System.out.println("biglietto vidimato puoi procedere con la corsa");
 
-                                    System.out.println(" sta arrivando il controllore : ");
-                                    System.out.println("1. controllo in corso");
-                                    if (Biglietto.isVidimato()){
-                                        System.out.println("perfetto puoi tornare a casa");
-                                    }else{
-                                        System.out.println(" ti faccio una bella multa perchè il biglietto non è stato timbrato");
-                                    }
-                                    System.out.println("2. controllo finito");
+                                    //System.out.println(" sta arrivando il controllore : ");
+                                    //                                    System.out.println("1. controllo in corso");
+                                    //                                    if (){
+                                    //                                        System.out.println("perfetto puoi tornare a casa");
+                                    //                                    }else{
+                                    //                                        System.out.println(" ti faccio una bella multa perchè il biglietto non è stato timbrato");
+                                    //                                    }
+                                    //                                    System.out.println("2. controllo finito");
                                     break;
                                 case 3 :
                                     System.out.println("esci");
