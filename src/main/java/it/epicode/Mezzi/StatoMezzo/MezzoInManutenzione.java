@@ -2,6 +2,7 @@ package it.epicode.Mezzi.StatoMezzo;
 
 import it.epicode.Mezzi.Mezzo;
 import it.epicode.Mezzi.TipoMezzo;
+import it.epicode.Mezzi.Tratta.Tratta;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -18,7 +19,7 @@ public class MezzoInManutenzione extends Mezzo {
     @Column(nullable = true)
     private LocalDate dataFineManutenzione;
     
-    public MezzoInManutenzione(int capienzaMax, TipoMezzo tipoMezzo, LocalDate dataInizioManutenzione, LocalDate dataFineManutenzione) {
+    public MezzoInManutenzione( int capienzaMax, TipoMezzo tipoMezzo,  LocalDate dataInizioManutenzione, LocalDate dataFineManutenzione) {
         super(capienzaMax, tipoMezzo);
         this.dataInizioManutenzione = dataInizioManutenzione;
         this.dataFineManutenzione = dataFineManutenzione;

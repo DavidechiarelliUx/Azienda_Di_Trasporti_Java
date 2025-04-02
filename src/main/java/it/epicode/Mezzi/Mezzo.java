@@ -27,7 +27,8 @@ public abstract class Mezzo {
     @ManyToOne
     @JoinColumn(name = "tratta_id")
     private Tratta tratta;
-    
+
+
     public Mezzo(int capienzaMax, TipoMezzo tipoMezzo) {
         this.capienzaMax = capienzaMax;
         this.tipoMezzo = tipoMezzo;
@@ -60,7 +61,15 @@ public abstract class Mezzo {
     public void setTipoMezzo(TipoMezzo tipoMezzo) {
         this.tipoMezzo = tipoMezzo;
     }
-    
+
+    public Tratta getTratta() {
+        return tratta;
+    }
+
+    public void setTratta(Tratta tratta) {
+        this.tratta = tratta;
+    }
+
     @Override
     public String toString() {
         return "Mezzo{" +

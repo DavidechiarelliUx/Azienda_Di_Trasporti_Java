@@ -4,6 +4,7 @@ import it.epicode.Mezzi.Mezzo;
 import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,13 +29,28 @@ public class Tratta {
     (name = "tratta_percorsa")
     private int trattaPercorsa;
     
-    @OneToMany(mappedBy = "tratta",  cascade = CascadeType.ALL)
-    private List<Mezzo> mezzo;
-    
+    @OneToMany(mappedBy = "tratta",  cascade = CascadeType.PERSIST)
+    private List<Mezzo> mezzo = new ArrayList<>();
+
+    @Column(name = "tipo_tratta", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TipoTratta tipoTratta;
-    
+
+    @Column(name = "codiceidentificativo", nullable = false)
     private Long codiceIdentificativo;
-    
+
+    @Column
+    (name = "numero_volte",  nullable = false, columnDefinition = "int default 0")
+    private int numeroVolte = 0;
+
+    public int getNumeroVolte() {
+        return numeroVolte;
+    }
+
+    public void setNumeroVolte(int numeroVolte) {
+        this.numeroVolte = numeroVolte;
+    }
+
     public String getZonaPartenza() {
         return zonaPartenza;
     }
@@ -75,15 +91,15 @@ public class Tratta {
         this.mezzo = mezzo;
     }
     
-    public Tratta(String zonaPartenza, String capolinea, int tempoMedioPercorrenza, int trattaPercorsa, List<Mezzo> mezzo, TipoTratta tipoTratta, Long codiceIdentificativo) {
+    public Tratta(String zonaPartenza, String capolinea, int tempoMedioPercorrenza, int trattaPercorsa,  TipoTratta tipoTratta, Long codiceIdentificativo) {
         this.zonaPartenza = zonaPartenza;
         this.capolinea = capolinea;
         this.tempoMedioPercorrenza = tempoMedioPercorrenza;
         this.trattaPercorsa = trattaPercorsa;
-        this.mezzo = mezzo;
         this.tipoTratta = tipoTratta;
         this.codiceIdentificativo = codiceIdentificativo;
     }
+
     
     public Tratta() {
     }

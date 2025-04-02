@@ -4,6 +4,7 @@ import it.epicode.Mezzi.StatoMezzo.MezzoInManutenzione;
 import it.epicode.Mezzi.StatoMezzo.MezzoInManutenzioneDAO;
 import it.epicode.Mezzi.StatoMezzo.MezzoInServizio;
 import it.epicode.Mezzi.StatoMezzo.MezzoInServizioDAO;
+import it.epicode.Mezzi.Tratta.Tratta;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -18,6 +19,7 @@ public class MainProvaMezzo {
         
         MezzoInManutenzioneDAO mezzoInManutenzioneDAO = new MezzoInManutenzioneDAO(em);
         MezzoInServizioDAO mezzoInServizioDAO = new MezzoInServizioDAO(em);
+
         
         em.getTransaction().begin();
         

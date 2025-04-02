@@ -2,6 +2,7 @@ package it.epicode.Mezzi.StatoMezzo;
 
 import it.epicode.Mezzi.Mezzo;
 import it.epicode.Mezzi.TipoMezzo;
+import it.epicode.Mezzi.Tratta.Tratta;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
