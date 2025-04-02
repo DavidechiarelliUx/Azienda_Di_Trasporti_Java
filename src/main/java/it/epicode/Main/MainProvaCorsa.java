@@ -35,6 +35,7 @@ public class MainProvaCorsa {
             System.out.println("Ciao stai aspettando un mezzo ? ");
             System.out.println("1. Si");
             System.out.println("2. No");
+            System.out.println("3. Conta Biglietti");
             System.out.println("Altri numeri. Esci");
             int scelta = scanner.nextInt();
             scanner.nextLine();
@@ -44,6 +45,7 @@ public class MainProvaCorsa {
                     System.out.println("che mezzo stai aspettando : ");
                     System.out.println("1. Tram");
                     System.out.println("2. Bus");
+
                     int sceltaMezzo = scanner.nextInt();
                     scanner.nextLine();
 
@@ -149,6 +151,17 @@ public class MainProvaCorsa {
                     break;
                 case 2 :
                     System.out.println("torna a fare ciò che vuoi ma non aspettare davanti la fermata che occupi spazio");
+                    break;
+
+                case 3 :
+                    System.out.println("Inserisci il mezzo dove voui contare i biglietti vidimati : ");
+
+                    Long mezzoId = scanner.nextLong();
+                    scanner.nextLine();
+
+                    int numeroBiglietti = bigliettoDAO.numeroTotBiglietti(mezzoId);
+
+                    System.out.println("Il numero totale di biglietti vidimati è: " + numeroBiglietti);
                     break;
                     default:
                         System.out.println("esci");
