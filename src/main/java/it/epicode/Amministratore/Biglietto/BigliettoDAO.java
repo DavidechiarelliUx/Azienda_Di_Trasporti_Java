@@ -1,6 +1,7 @@
 package it.epicode.Amministratore.Biglietto;
 
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.PuntoDiEmissione;
+import it.epicode.Mezzi.Mezzo;
 import it.epicode.Mezzi.MezzoDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -54,14 +55,31 @@ public class BigliettoDAO {
         }
         return 0;
     }
-    
-    public void vidimaBiglietto(Long id) {Biglietto biglietto = findById(id);if (biglietto != null && !biglietto.isVidimato()) {
-       biglietto.setVidimato(true);
-       em.merge(biglietto);
-       System.out.println("Biglietto " + id + " vidimato con successo!");
-   } else {
-       System.out.println("Errore: Biglietto non trovato o già vidimato.");
-      }
+
+    public void vidimaBiglietto(Long bigliettoId, Long mezzoId) {
+        Biglietto biglietto = findById(bigliettoId);
+        Mezzo mezzo = em.find(Mezzo.class, mezzoId);
+
+        if (biglietto == null) {
+            System.out.println("Errore: Biglietto non trovato.");
+            return;
+        }
+        if (mezzo == null) {
+            System.out.println("Errore: Mezzo non trovato.");
+            return;
+        }
+        if (biglietto.isVidimato()) {
+            System.out.println("Errore: Il biglietto è già stato vidimato.");
+            return;
+        }
+
+
+        biglietto.setVidimato(true);
+        biglietto.setMezzo(mezzo);
+        em.merge(biglietto);
+
+
+        System.out.println("Biglietto " + bigliettoId + " vidimato con successo sul mezzo " + mezzoId);
     }
 
 

@@ -6,6 +6,7 @@ import it.epicode.Amministratore.Abbonamento.Tessera.TesseraDAO;
 import it.epicode.Amministratore.Biglietto.Biglietto;
 import it.epicode.Amministratore.Biglietto.BigliettoDAO;
 import it.epicode.Amministratore.Utente.UtenteDAO;
+import it.epicode.Mezzi.Mezzo;
 import it.epicode.Mezzi.MezzoDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -70,13 +71,15 @@ public class MainProvaCorsa {
                                     System.out.print("Inserisci l'ID del biglietto da vidimare: ");
                                     Long codiceBiglietto = scanner.nextLong();
                                     scanner.nextLine();
+                                    System.out.println("inserisci il numero del tram : ");
+                                    Long mezzoId = scanner.nextLong();
+                                    scanner.nextLine();
                                     System.out.println("verifica del biglietto in corso ....");
-                                    bigliettoDAO.vidimaBiglietto(codiceBiglietto);
+                                    bigliettoDAO.vidimaBiglietto( codiceBiglietto, mezzoId );
                                     em.getTransaction().commit();
 
-                                    System.out.println("biglietto vidimato puoi procedere con la corsa");
 
-                                    System.out.println("Contiamo i biglietti vidimati all'interno del tram");
+
 
 
                                     //System.out.println(" sta arrivando il controllore : ");
@@ -117,13 +120,15 @@ public class MainProvaCorsa {
                                     System.out.println("hai scelto biglietto");
                                     em.getTransaction().begin();
                                     System.out.print("Inserisci l'ID del biglietto da vidimare: ");
-                                    Long codiceBiglietto = scanner.nextLong();
+                                    Long codiceBiglietto2 = scanner.nextLong();
+                                    scanner.nextLine();
+                                    System.out.println("inserisci il numero dell'autobus : ");
+                                    Long mezzoId2 = scanner.nextLong();
                                     scanner.nextLine();
                                     System.out.println("verifica del biglietto in corso ....");
-                                    bigliettoDAO.vidimaBiglietto(codiceBiglietto);
+                                    bigliettoDAO.vidimaBiglietto(codiceBiglietto2, mezzoId2);
                                     em.getTransaction().commit();
 
-                                    System.out.println("biglietto vidimato puoi procedere con la corsa");
                                     break;
                                 case 3 :
                                     System.out.println("esci");

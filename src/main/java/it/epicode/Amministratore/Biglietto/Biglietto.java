@@ -42,14 +42,9 @@ public class Biglietto {
         this.puntoDiEmissione = puntoDiEmissione;
         this.dataDiEmissione = dataDiEmissione;
         this.vidimato = false;
+        this.mezzo = null;
     }
 
-    public Biglietto(PuntoDiEmissione puntoDiEmissione, LocalDate dataDiEmissione, Mezzo mezzo) {
-        this.puntoDiEmissione = puntoDiEmissione;
-        this.dataDiEmissione = dataDiEmissione;
-        this.vidimato = false;
-        this.mezzo = mezzo;
-    }
     
     public Long getId() { return id; }
     

@@ -300,18 +300,7 @@ public class MainProgramma {
                         System.out.println("Tessera non valida.");
                     }
                     break;
-                
-                case 5:
-                    System.out.print("Inserisci l'ID del biglietto da vidimare: ");
-                    Long idBiglietto = scanner.nextLong();
-                    if (idBiglietto == null || idBiglietto <= 0) {
-                        System.out.println("ID non valido.");
-                        break;
-                    }
-                    em.getTransaction().begin();
-                    bigliettoDAO.vidimaBiglietto(idBiglietto);
-                    em.getTransaction().commit();
-                    break;
+
                 
                 case 6:
                     System.out.println("--- Conta Biglietti e Abbonamenti ---");

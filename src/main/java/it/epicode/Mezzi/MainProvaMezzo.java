@@ -23,6 +23,8 @@ public class MainProvaMezzo {
         
         mezzoInManutenzioneDAO.insert(new MezzoInManutenzione(30, TipoMezzo.TRAM, LocalDate.now(), LocalDate.of(2025, 10, 10)));
         mezzoInServizioDAO.insert(new MezzoInServizio(40, TipoMezzo.TRAM, LocalDate.now(), LocalDate.of(2025, 10, 10)));
+        mezzoInManutenzioneDAO.insert(new MezzoInManutenzione(20, TipoMezzo.AUTOBUS, LocalDate.now(), LocalDate.of(2025, 12, 31)));
+        mezzoInServizioDAO.insert(new MezzoInServizio(10, TipoMezzo.AUTOBUS, LocalDate.now(), LocalDate.of(2025, 1, 1)));
         
         em.getTransaction().commit();
         
