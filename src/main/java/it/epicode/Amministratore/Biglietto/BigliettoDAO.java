@@ -82,5 +82,18 @@ public class BigliettoDAO {
         System.out.println("Biglietto " + bigliettoId + " vidimato con successo sul mezzo " + mezzoId);
     }
 
+    public int numeroTotBiglietti(Long mezzoId){
+
+        TypedQuery<Long> query = em.createQuery(
+                "SELECT COUNT(b) FROM Biglietto b WHERE b.mezzo.id = :mezzoId AND b.vidimato = true ", Long.class
+        );
+        query.setParameter("mezzoId", mezzoId);
+
+        Long result = query.getSingleResult();
+        if (result != null) {
+            return result.intValue();
+        }
+        return 0;
+    }
 
 }
