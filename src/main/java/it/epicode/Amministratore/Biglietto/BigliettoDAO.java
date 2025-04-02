@@ -1,6 +1,7 @@
 package it.epicode.Amministratore.Biglietto;
 
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.PuntoDiEmissione;
+import it.epicode.Mezzi.MezzoDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
@@ -62,4 +63,6 @@ public class BigliettoDAO {
        System.out.println("Errore: Biglietto non trovato o già vidimato.");
       }
     }
+
+
 }

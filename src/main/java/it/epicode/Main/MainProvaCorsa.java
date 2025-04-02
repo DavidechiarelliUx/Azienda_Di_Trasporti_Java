@@ -76,6 +76,9 @@ public class MainProvaCorsa {
 
                                     System.out.println("biglietto vidimato puoi procedere con la corsa");
 
+                                    System.out.println("Contiamo i biglietti vidimati all'interno del tram");
+
+
                                     //System.out.println(" sta arrivando il controllore : ");
                                     //                                    System.out.println("1. controllo in corso");
                                     //                                    if (){
@@ -95,8 +98,42 @@ public class MainProvaCorsa {
                             break;
                         case 2 :
                             System.out.println("hai scelto bus");
+                            System.out.println("Hai la tessera o il biglietto ?");
 
-                            break;
+                            System.out.println("1. tessera");
+                            System.out.println("2. biglietto");
+                            System.out.println("3. esci");
+                            int sceltaTesseraBiglietto2 = scanner.nextInt();
+                            scanner.nextLine();
+                            switch (sceltaTesseraBiglietto2) {
+                                case 1:
+                                    System.out.println("hai scelto tessera");
+                                    System.out.println("inserisci il codice della tessera");
+                                    int codiceTessera = scanner.nextInt();
+                                    scanner.nextLine();
+                                    //puoi procedere tranquillamente se l'abbonamento è valido
+                                    break;
+                                case 2:
+                                    System.out.println("hai scelto biglietto");
+                                    em.getTransaction().begin();
+                                    System.out.print("Inserisci l'ID del biglietto da vidimare: ");
+                                    Long codiceBiglietto = scanner.nextLong();
+                                    scanner.nextLine();
+                                    System.out.println("verifica del biglietto in corso ....");
+                                    bigliettoDAO.vidimaBiglietto(codiceBiglietto);
+                                    em.getTransaction().commit();
+
+                                    System.out.println("biglietto vidimato puoi procedere con la corsa");
+                                    break;
+                                case 3 :
+                                    System.out.println("esci");
+                                    break;
+                                default:
+                                    System.out.println("scelta non valida");
+                                    break;
+                            }
+
+                        break;
                         case 3 :
                             System.out.println("esci");
                             break;

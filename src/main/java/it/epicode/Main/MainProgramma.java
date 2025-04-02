@@ -279,7 +279,7 @@ public class MainProgramma {
                         Abbonamento nuovoAbbonamento = new Abbonamento(utenteLoggato.getTessera().getCodiceTessera(), Tipologia.valueOf(tipoAbbonamento), dataInizio, dataFine, rivenditoreSelezionatoAbbo);
                         
                         em.getTransaction().begin();
-                        abbonamentoDAO.merge(nuovoAbbonamento);
+                        abbonamentoDAO.insert(nuovoAbbonamento);
                         em.getTransaction().commit();
                         
                         System.out.println("Abbonamento emesso con successo! Scadenza: " + dataFine);
