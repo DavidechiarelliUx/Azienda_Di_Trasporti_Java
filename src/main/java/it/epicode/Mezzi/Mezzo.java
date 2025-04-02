@@ -1,6 +1,7 @@
 package it.epicode.Mezzi;
 
 import it.epicode.Amministratore.Biglietto.Biglietto;
+import it.epicode.Mezzi.Tratta.Tratta;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -22,6 +23,10 @@ public abstract class Mezzo {
 
     @OneToMany(mappedBy = "mezzo")
     private List<Biglietto> biglietti = new ArrayList<>();
+    
+    @ManyToOne
+    @JoinColumn(name = "tratta_id")
+    private Tratta tratta;
     
     public Mezzo(int capienzaMax, TipoMezzo tipoMezzo) {
         this.capienzaMax = capienzaMax;
