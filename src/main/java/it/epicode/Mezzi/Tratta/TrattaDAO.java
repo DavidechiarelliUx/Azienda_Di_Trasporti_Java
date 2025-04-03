@@ -28,7 +28,7 @@ public class TrattaDAO {
 
         if (mezzo != null && tratta != null) {
             mezzo.setTratta(tratta);
-            List<Mezzo> mezzi = new ArrayList<>(); // Crea una lista MUTABILE
+            List<Mezzo> mezzi = new ArrayList<>();
             mezzi.add(mezzo);
             tratta.setMezzo(mezzi);
             em.merge(mezzo);
@@ -42,7 +42,7 @@ public class TrattaDAO {
             }
         }
     }
-
+    
     public void contaVolteTratta(long idTratta) {
         Tratta tratta = em.find(Tratta.class, idTratta);
 
@@ -53,5 +53,15 @@ public class TrattaDAO {
         } else {
             System.out.println("Tratta con ID " + idTratta + " non trovata.");
         }
+    }
+    
+    public double calcolaMediaTempo(Long codiceIdentificativo) {
+        Double media = em.createQuery(
+                        "SELECT AVG(t.trattaPercorsa) FROM Tratta t WHERE t.codiceIdentificativo = :codice",
+                        Double.class)
+                .setParameter("codice", codiceIdentificativo)
+                .getSingleResult();
+        
+        return (media != null) ? media : 0;
     }
 }
