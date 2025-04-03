@@ -16,15 +16,15 @@ public class AbbonamentoDAO {
     }
     
     public void insert(Abbonamento abbonamento) {
-        em.getTransaction().begin();
-        em.persist(abbonamento);
-        em.getTransaction().commit();
+
+        em.merge(abbonamento);
+
     }
     
     public void delete(Abbonamento abbonamento) {
-        em.getTransaction().begin();
+
         em.remove(abbonamento);
-        em.getTransaction().commit();
+
     }
     
     public Abbonamento findById(long id) {

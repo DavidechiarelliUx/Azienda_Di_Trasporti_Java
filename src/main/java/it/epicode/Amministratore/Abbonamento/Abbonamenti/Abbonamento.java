@@ -2,6 +2,7 @@ package it.epicode.Amministratore.Abbonamento.Abbonamenti;
 
 import it.epicode.Amministratore.Abbonamento.Tessera.Tessera;
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.PuntoDiEmissione;
+import it.epicode.Amministratore.Utente.Utente;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -64,7 +65,7 @@ public class Abbonamento {
         this.dataFine = dataFine;
     }
 
-    public Abbonamento() {
+    public Abbonamento(Utente utente, LocalDate now, Tipologia tipologia, int durataMesi) {
     }
     
     @Override

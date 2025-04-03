@@ -44,8 +44,10 @@ public class MainProgramma {
         
         while (!loggedIn) {
             System.out.println("--- Login ---");
+
             System.out.println("1. Login con account esistente");
             System.out.println("2. Crea un nuovo account");
+            System.out.println("3. Accedi all'area amministratore :");
             System.out.print("Scegli un'operazione: ");
             int sceltaLogin = scanner.nextInt();
             
@@ -90,7 +92,101 @@ public class MainProgramma {
                     System.out.println("Benvenuto, " + nomeUtente + " " + cognomeUtente);
                     loggedIn = true;
                     break;
-                
+                case 3 :
+                    System.out.println("Inserisci la password : ");
+                    String password = scanner.next();
+                    if (password.equals("Davidone99")) {
+                        System.out.println("Accesso effettuato con successo!");
+                        loggedIn = true;
+                        while (loggedIn) {
+                            System.out.println("--- Menu Amministratore ---");
+                            System.out.println("1. Emissione Abbonamento");
+                            System.out.println("2. Emissione Biglietto");
+                            System.out.println("3. Conta Biglietti e Abbonamenti");
+                            System.out.println("4. Conta Biglietti vidimati");
+                            System.out.println("0. Uscita");
+                            System.out.print("Scegli un'operazione: ");
+
+                            int scelta = scanner.nextInt();
+
+                            switch (scelta) {
+                                case 1:
+                                    System.out.println("Inserisci l'ID del tessera dell'utente:");
+                                    int tesseraId = scanner.nextInt();
+                                    scanner.nextLine();
+
+                                    Tessera tessera = tesseraDAO.findById(tesseraId);
+
+                                    if (tessera != null) {
+                                        System.out.println("Inserisci la durata dell'abbonamento (in mesi):");
+                                        int durataMesi = scanner.nextInt();
+                                        scanner.nextLine();
+
+                                        System.out.println("Scegli la tipologia dell'abbonamento:");
+                                        System.out.println("1. Settimanale");
+                                        System.out.println("2. Mensile");
+                                        int tipologiaScelta = scanner.nextInt();
+                                        scanner.nextLine();
+
+                                        Tipologia tipologia = (tipologiaScelta == 1) ? Tipologia.SETTIMANALE : Tipologia.MENSILE;
+
+                                        Abbonamento nuovoAbbonamento = new Abbonamento(tessera.getUtente(), LocalDate.now(), tipologia, durataMesi);
+                                        abbonamentoDAO.insert(nuovoAbbonamento);
+
+                                        System.out.println("Abbonamento emesso con successo!");
+                                    } else {
+                                        System.out.println("Tessera non trovata.");
+                                    }
+                                    break;
+                                case 2:
+                                    System.out.println("Inserisci l'ID del distributore:");
+                                    Long distributoreId = scanner.nextLong();
+                                    scanner.nextLine();
+
+                                    Distributore distributore = distributoreDAO.findById(distributoreId);
+
+                                    if (distributore != null) {
+                                        Biglietto nuovoBiglietto = new Biglietto(distributore, LocalDate.now());
+                                        bigliettoDAO.insert(nuovoBiglietto);
+
+                                        System.out.println("Biglietto emesso con successo!");
+                                    } else {
+                                        System.out.println("Distributore non trovato.");
+                                    }
+                                    break;
+                                case 3:
+                                    System.out.println("Inserisci il mezzo dove vuoi contare i biglietti vidimati : ");
+
+                                    Long mezzoId = scanner.nextLong();
+                                    scanner.nextLine();
+
+                                    int numeroBiglietti = bigliettoDAO.numeroTotBiglietti(mezzoId);
+
+                                    System.out.println("Il numero totale di biglietti vidimati è: " + numeroBiglietti);
+                                    break;
+                                case 4 :
+                                    System.out.println("Inserisci il mezzo dove voui contare i biglietti vidimati : ");
+
+                                    Long mezzoId1 = scanner.nextLong();
+                                    scanner.nextLine();
+
+                                    int numeroBiglietti2 = bigliettoDAO.numeroTotBiglietti(mezzoId1);
+
+                                    System.out.println("Il numero totale di biglietti vidimati è: " + numeroBiglietti2);
+                                    break;
+                                case 0:
+                                    System.out.println("Uscita dall'area amministratore.");
+                                    loggedIn = false;
+                                    break;
+                                default:
+                                    System.out.println("Opzione non valida. Riprova.");
+                                    break;
+                            }
+                        }
+                    } else {
+                        System.out.println("Password non valida. Riprova.");
+                    }
+                    break;
                 default:
                     System.out.println("Opzione non valida. Riprova.");
                     break;
