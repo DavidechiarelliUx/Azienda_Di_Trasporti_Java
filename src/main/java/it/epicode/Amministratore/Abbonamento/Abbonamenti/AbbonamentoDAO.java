@@ -16,15 +16,11 @@ public class AbbonamentoDAO {
     }
     
     public void insert(Abbonamento abbonamento) {
-
         em.merge(abbonamento);
-
     }
     
     public void delete(Abbonamento abbonamento) {
-
         em.remove(abbonamento);
-
     }
     
     public Abbonamento findById(long id) {
@@ -61,7 +57,6 @@ public class AbbonamentoDAO {
         query.setParameter("fine", fine);
         return query.getSingleResult().intValue();
     }
-    
     
     public void merge(Abbonamento nuovoAbbonamento) {
         em.merge(nuovoAbbonamento);

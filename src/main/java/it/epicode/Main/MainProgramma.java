@@ -47,7 +47,7 @@ public class MainProgramma {
         Utente utenteLoggato = null;
         
         while (!loggedIn) {
-            System.out.println("--- Login ---");
+            System.out.println("~ . ~ Login ~ . ~");
 
             System.out.println("1. Login con account esistente");
             System.out.println("2. Crea un nuovo account");
@@ -103,121 +103,103 @@ public class MainProgramma {
                         System.out.println("Accesso effettuato con successo!");
                         loggedIn = true;
                         while (loggedIn) {
-                            System.out.println("--- Menu Amministratore ---");
-                            System.out.println("1. Emissione Abbonamento");
-                            System.out.println("2. Emissione Biglietto");
-                            System.out.println("3. Conta Biglietti e Abbonamenti");
-                            System.out.println("4. Conta Biglietti vidimati");
-                            System.out.println("5. Conta tutti i biglietti");
-                            System.out.println("6. Studia il perchè i mezzi sono stati in manutenzione e perchè");
-                            System.out.println("7. Numero di volte che un mezzo ha percorso una tratta");
+                            System.out.println("~ . ~ Menu Amministratore ~ . ~");
+                            System.out.println("1. Conta Biglietti e Abbonamenti");
+                            System.out.println("2. Conta Biglietti vidimati");
+                            System.out.println("3. Studia il perchè i mezzi sono stati in manutenzione");
+                            System.out.println("4. Numero di volte che un mezzo ha percorso una tratta");
                             System.out.println("0. Uscita");
                             System.out.print("Scegli un'operazione: ");
 
                             int scelta = scanner.nextInt();
-
+                            
                             switch (scelta) {
                                 case 1:
-                                    System.out.println("Inserisci l'ID del tessera dell'utente:");
-                                    int tesseraId = scanner.nextInt();
-                                    scanner.nextLine();
-
-                                    Tessera tessera = tesseraDAO.findById(tesseraId);
-
-                                    if (tessera != null) {
-                                        System.out.println("Inserisci la durata dell'abbonamento (in mesi):");
-                                        int durataMesi = scanner.nextInt();
-                                        scanner.nextLine();
-
-                                        System.out.println("Scegli la tipologia dell'abbonamento:");
-                                        System.out.println("1. Settimanale");
-                                        System.out.println("2. Mensile");
-                                        int tipologiaScelta = scanner.nextInt();
-                                        scanner.nextLine();
-
-                                        Tipologia tipologia = (tipologiaScelta == 1) ? Tipologia.SETTIMANALE : Tipologia.MENSILE;
-
-                                        Abbonamento nuovoAbbonamento = new Abbonamento(tessera.getUtente(), LocalDate.now(), tipologia, durataMesi);
-                                        abbonamentoDAO.insert(nuovoAbbonamento);
-
-                                        System.out.println("Abbonamento emesso con successo!");
-                                    } else {
-                                        System.out.println("Tessera non trovata.");
+                                    System.out.println("~ . ~ Conta Biglietti e Abbonamenti ~ . ~");
+                                    
+                                    try {
+                                        System.out.print("Inserisci la data di inizio (formato YYYY-MM-DD): ");
+                                        String dataInizioString = scanner.next();
+                                        LocalDate dataInizio = LocalDate.parse(dataInizioString);
+                                        
+                                        LocalDate dataFine = dataInizio.plusYears(1);
+                                        
+                                        int totalBiglietti = bigliettoDAO.countBigliettiByPeriodo(dataInizio, dataFine);
+                                        int totalAbbonamenti = abbonamentoDAO.countAbbonamentiByPeriodo(dataInizio, dataFine);
+                                        
+                                        System.out.println("~ . ~ Report Generale ~ . ~");
+                                        System.out.println("Totale Biglietti emessi: " + totalBiglietti);
+                                        System.out.println("Totale Abbonamenti emessi: " + totalAbbonamenti);
+                                        System.out.println("Periodo considerato: " + dataInizio + " → " + dataFine);
+                                        
+                                        System.out.print("\nSeleziona un punto di emissione (ID): ");
+                                        if (scanner.hasNextLong()) {
+                                            long puntoEmissioneId = scanner.nextLong();
+                                            PuntoDiEmissione puntoEmissione = puntoDiEmissioneDAO.findById(puntoEmissioneId);
+                                            
+                                            if (puntoEmissione != null) {
+                                                int bigliettiPerPunto = bigliettoDAO.countBigliettiByPuntoDiEmissioneAndPeriodo(puntoEmissione, dataInizio, dataFine);
+                                                int abbonamentiPerPunto = abbonamentoDAO.countAbbonamentiByPuntoDiEmissioneAndPeriodo(puntoEmissione, dataInizio, dataFine);
+                                                
+                                                System.out.println("~ . ~ Report per Punto di Emissione: " + puntoEmissione.getCitta() + " ~ . ~");
+                                                System.out.println("Biglietti emessi: " + bigliettiPerPunto);
+                                                System.out.println("Abbonamenti emessi: " + abbonamentiPerPunto);
+                                            } else {
+                                                System.out.println("Errore: Punto di emissione non trovato.");
+                                            }
+                                        } else {
+                                            System.out.println("Errore: Inserisci un ID valido.");
+                                            scanner.next();
+                                        }
+                                    } catch (Exception e) {
+                                        System.out.println("Errore nel formato della data. Assicurati di inserire una data valida nel formato YYYY-MM-DD.");
                                     }
                                     break;
+                                
+                                
+                                
                                 case 2:
-                                    System.out.println("Inserisci l'ID del distributore:");
-                                    Long distributoreId = scanner.nextLong();
-                                    scanner.nextLine();
-
-                                    Distributore distributore = distributoreDAO.findById(distributoreId);
-
-                                    if (distributore != null) {
-                                        Biglietto nuovoBiglietto = new Biglietto(distributore, LocalDate.now());
-                                        bigliettoDAO.insert(nuovoBiglietto);
-
-                                        System.out.println("Biglietto emesso con successo!");
-                                    } else {
-                                        System.out.println("Distributore non trovato.");
-                                    }
-                                    break;
-                                case 3:
-                                    System.out.println("Inserisci il mezzo dove vuoi contare i biglietti vidimati : ");
-
+                                    System.out.println("Inserisci il mezzo dove vuoi contare i biglietti vidimati:");
                                     Long mezzoId = scanner.nextLong();
                                     scanner.nextLine();
-
+                                    
                                     int numeroBiglietti = bigliettoDAO.numeroTotBiglietti(mezzoId);
-
                                     System.out.println("Il numero totale di biglietti vidimati è: " + numeroBiglietti);
                                     break;
-                                case 4 :
-                                    System.out.println("Inserisci il mezzo dove voui contare i biglietti vidimati : ");
-
-                                    Long mezzoId1 = scanner.nextLong();
+                                
+                                case 3:
+                                    MezzoDAO mezzoDAO = new MezzoDAO(em);
+                                    ListaManutenzioneDAO listaManutenzioneDAO = new ListaManutenzioneDAO(em);
+                                    Scanner scanner2 = new Scanner(System.in);
+                                    
+                                    System.out.println("Inserisci l'id del mezzo: ");
+                                    Long idMezzo = scanner2.nextLong();
                                     scanner.nextLine();
-
-                                    int numeroBiglietti2 = bigliettoDAO.numeroTotBiglietti(mezzoId1);
-
-                                    System.out.println("Il numero totale di biglietti vidimati è: " + numeroBiglietti2);
+                                    
+                                    List<Object[]> numeroManutenzioni = listaManutenzioneDAO.getManutenzioniByMezzoId(idMezzo);
+                                    System.out.println("Il mezzo è stato in manutenzione " + numeroManutenzioni.size() + " volte");
+                                    
+                                    for (Object[] result : numeroManutenzioni) {
+                                        System.out.println("Data inizio manutenzione: " + result[0] + ", Data fine manutenzione: " + result[1] + ", Descrizione manutenzione: " + result[2]);
+                                    }
                                     break;
-                                    case 5 :
-                                        System.out.println("Conteggio totale dei biglietti emessi:");
-
-                                        int numeroTotaleBiglietti = Math.toIntExact(bigliettoDAO.numeroTotBiglietti());
-                                        System.out.println("Il numero totale di biglietti emessi è: " + numeroTotaleBiglietti);
-                                        break;
-                                    case 6 :
-                                        MezzoDAO mezzoDAO = new MezzoDAO(em);
-                                        ListaManutenzioneDAO listaManutenzioneDAO = new ListaManutenzioneDAO(em);
-                                        Scanner scanner2 = new Scanner(System.in);
-
-                                        System.out.println("inserisci l'id del mezzo : ");
-                                        Long idMezzo = scanner2.nextLong();
-
-                                        scanner.nextLine();
-
-                                        List<Object[]> numeroManutenzioni = listaManutenzioneDAO.getManutenzioniByMezzoId(idMezzo);
-                                        System.out.println("il mezzo è stato in manutenzione : " + numeroManutenzioni.size() + " volte");
-                                        for (Object[] result : numeroManutenzioni) {
-                                            System.out.println("Data inizio manutenzione: " + result[0] + ", Data fine manutenzione: " + result[1] + " Descrizione manutenzione" + result[2]);
-                                        }
-                                        break;
-                                    case 7 :
-                                        System.out.println("Inserisci l'id della tratta : ");
-                                        Long idTratta = scanner.nextLong();
-                                        scanner.nextLine();
-                                        TrattaDAO trattaDAO = new TrattaDAO(em);
-                                        System.out.println("il mezzo è partito da : " + trattaDAO.partenzaTratta(idTratta) + " con capolinea :" + trattaDAO.capolineaTratta(idTratta) + " ha percorso : ");
-                                        trattaDAO.contaVolteTratta(idTratta);
-                                        System.out.println("Media tempo tratta 1: " + trattaDAO.calcolaMediaTempo(idTratta));
-
-                                        break;
-
+                                
+                                case 4:
+                                    System.out.println("Inserisci l'id della tratta: ");
+                                    Long idTratta = scanner.nextLong();
+                                    scanner.nextLine();
+                                    TrattaDAO trattaDAO = new TrattaDAO(em);
+                                    
+                                    System.out.println("Il mezzo è partito da: " + trattaDAO.partenzaTratta(idTratta) + " con capolinea: " + trattaDAO.capolineaTratta(idTratta));
+                                    trattaDAO.contaVolteTratta(idTratta);
+                                    System.out.println("Media tempo tratta: " + trattaDAO.calcolaMediaTempo(idTratta));
+                                    break;
+                                
                                 case 0:
                                     System.out.println("Uscita dall'area amministratore.");
                                     loggedIn = false;
                                     break;
+                                
                                 default:
                                     System.out.println("Opzione non valida. Riprova.");
                                     break;
@@ -235,13 +217,12 @@ public class MainProgramma {
         
         boolean running = true;
         while (running) {
-            System.out.println("--- Menu ---");
+            System.out.println("~ . ~ Menu ~ . ~");
             System.out.println("1. Emissione Biglietto da Distributore");
             System.out.println("2. Emissione Biglietto da Rivenditore");
             System.out.println("3. Emissione Abbonamento");
             System.out.println("4. Verifica validità tessera");
             System.out.println("5. Vidimazione biglietto");
-            System.out.println("6. Conta Biglietti e Abbonamenti");
             System.out.println("0. Uscita");
             System.out.print("Scegli un'operazione: ");
             
@@ -323,7 +304,7 @@ public class MainProgramma {
                         break;
                     }
                     
-                    System.out.println("--- Seleziona Punto di Emissione ---");
+                    System.out.println("~ . ~ Seleziona Punto di Emissione ~ . ~");
                     System.out.println("1. Distributore");
                     System.out.println("2. Rivenditore");
                     System.out.print("Scegli un punto di emissione (1-2): ");
@@ -354,22 +335,25 @@ public class MainProgramma {
                             break;
                         }
                         
-                        System.out.print("Inserisci il tipo di abbonamento (SETTIMANALE/MENSILE): ");
-                        String tipoAbbonamento = scanner.next().toUpperCase();
+                        System.out.print("Inserisci il tipo di abbonamento (1 per SETTIMANALE, 2 per MENSILE): ");
+                        int tipoAbbonamento = scanner.nextInt();
                         
                         LocalDate dataInizio = LocalDate.now();
                         LocalDate dataFine;
                         
-                        if (tipoAbbonamento.equals("SETTIMANALE")) {
-                            dataFine = dataInizio.plusWeeks(1);
-                        } else if (tipoAbbonamento.equals("MENSILE")) {
-                            dataFine = dataInizio.plusMonths(1);
-                        } else {
-                            System.out.println("Errore: Tipo di abbonamento non valido.");
-                            break;
+                        switch (tipoAbbonamento) {
+                            case 1:
+                                dataFine = dataInizio.plusWeeks(1);
+                                break;
+                            case 2:
+                                dataFine = dataInizio.plusMonths(1);
+                                break;
+                            default:
+                                System.out.println("Errore: Tipo di abbonamento non valido.");
+                                return;
                         }
                         
-                        Abbonamento nuovoAbbonamento = new Abbonamento(utenteLoggato.getTessera().getCodiceTessera(), Tipologia.valueOf(tipoAbbonamento), dataInizio, dataFine, distributoreSelezionatoAbbo);
+                        Abbonamento nuovoAbbonamento = new Abbonamento(utenteLoggato.getTessera().getCodiceTessera(), Tipologia.valueOf(tipoAbbonamento == 1 ? "SETTIMANALE" : "MENSILE"), dataInizio, dataFine, distributoreSelezionatoAbbo);
                         
                         em.getTransaction().begin();
                         abbonamentoDAO.merge(nuovoAbbonamento);
@@ -397,25 +381,28 @@ public class MainProgramma {
                         
                         Rivenditore rivenditoreSelezionatoAbbo = rivenditoriList.get(rivenditoreSceltaAbbo - 1);
                         
-                        System.out.print("Inserisci il tipo di abbonamento (SETTIMANALE/MENSILE): ");
-                        String tipoAbbonamento = scanner.next().toUpperCase();
+                        System.out.print("Inserisci il tipo di abbonamento (1 per SETTIMANALE, 2 per MENSILE): ");
+                        int tipoAbbonamento = scanner.nextInt();
                         
                         LocalDate dataInizio = LocalDate.now();
                         LocalDate dataFine;
                         
-                        if (tipoAbbonamento.equals("SETTIMANALE")) {
-                            dataFine = dataInizio.plusWeeks(1);
-                        } else if (tipoAbbonamento.equals("MENSILE")) {
-                            dataFine = dataInizio.plusMonths(1);
-                        } else {
-                            System.out.println("Errore: Tipo di abbonamento non valido.");
-                            break;
+                        switch (tipoAbbonamento) {
+                            case 1:
+                                dataFine = dataInizio.plusWeeks(1);
+                                break;
+                            case 2:
+                                dataFine = dataInizio.plusMonths(1);
+                                break;
+                            default:
+                                System.out.println("Errore: Tipo di abbonamento non valido.");
+                                return;
                         }
                         
-                        Abbonamento nuovoAbbonamento = new Abbonamento(utenteLoggato.getTessera().getCodiceTessera(), Tipologia.valueOf(tipoAbbonamento), dataInizio, dataFine, rivenditoreSelezionatoAbbo);
+                        Abbonamento nuovoAbbonamento = new Abbonamento(utenteLoggato.getTessera().getCodiceTessera(), Tipologia.valueOf(tipoAbbonamento == 1 ? "SETTIMANALE" : "MENSILE"), dataInizio, dataFine, rivenditoreSelezionatoAbbo);
                         
                         em.getTransaction().begin();
-                        abbonamentoDAO.insert(nuovoAbbonamento);
+                        abbonamentoDAO.merge(nuovoAbbonamento);
                         em.getTransaction().commit();
                         
                         System.out.println("Abbonamento emesso con successo! Scadenza: " + dataFine);
@@ -431,42 +418,23 @@ public class MainProgramma {
                     
                     Tessera tesseraControllata = tesseraDAO.findById(codiceTessera);
                     if (tesseraControllata != null) {
-                        System.out.println("Tessera valida: " + tesseraControllata);
+                        System.out.println("Tessera valida: " + tesseraControllata.getCodiceTessera() + " - " + tesseraControllata.getUtente().getNome());
                     } else {
                         System.out.println("Tessera non valida.");
                     }
                     break;
-
                 
-                case 6:
-                    System.out.println("--- Conta Biglietti e Abbonamenti ---");
-                    System.out.print("Inserisci la data di inizio (formato YYYY-MM-DD): ");
-                    String dataInizioString = scanner.next();
-                    LocalDate dataInizio = LocalDate.parse(dataInizioString);
-                    
-                    System.out.print("Inserisci la data di fine (formato YYYY-MM-DD): ");
-                    String dataFineString = scanner.next();
-                    LocalDate dataFine = LocalDate.parse(dataFineString);
-                    
-                    int totalBiglietti = bigliettoDAO.countBigliettiByPeriodo(dataInizio, dataFine);
-                    int totalAbbonamenti = abbonamentoDAO.countAbbonamentiByPeriodo(dataInizio, dataFine);
-                    
-                    System.out.println("Totale Biglietti emessi: " + totalBiglietti);
-                    System.out.println("Totale Abbonamenti emessi: " + totalAbbonamenti);
-                    
-                    System.out.print("Seleziona un punto di emissione (ID): ");
-                    long puntoEmissioneId = scanner.nextLong();
-                    PuntoDiEmissione puntoEmissione = puntoDiEmissioneDAO.findById(puntoEmissioneId);
-                    
-                    if (puntoEmissione != null) {
-                        int bigliettiPerPunto = bigliettoDAO.countBigliettiByPuntoDiEmissioneAndPeriodo(puntoEmissione, dataInizio, dataFine);
-                        int abbonamentiPerPunto = abbonamentoDAO.countAbbonamentiByPuntoDiEmissioneAndPeriodo(puntoEmissione, dataInizio, dataFine);
-                        
-                        System.out.println("Biglietti emessi dal punto di emissione (" + puntoEmissione.getCitta() + "): " + bigliettiPerPunto);
-                        System.out.println("Abbonamenti emessi dal punto di emissione (" + puntoEmissione.getCitta() + "): " + abbonamentiPerPunto);
-                    } else {
-                        System.out.println("Punto di emissione non trovato.");
-                    }
+                case 5:
+                    em.getTransaction().begin();
+                    System.out.print("Inserisci l'ID del biglietto da vidimare: ");
+                    Long codiceBiglietto2 = scanner.nextLong();
+                    scanner.nextLine();
+                    System.out.println("inserisci il numero del mezzo: ");
+                    Long mezzoId2 = scanner.nextLong();
+                    scanner.nextLine();
+                    System.out.println("verifica del biglietto in corso ....");
+                    bigliettoDAO.vidimaBiglietto(codiceBiglietto2, mezzoId2);
+                    em.getTransaction().commit();
                     break;
                 
                 case 0:

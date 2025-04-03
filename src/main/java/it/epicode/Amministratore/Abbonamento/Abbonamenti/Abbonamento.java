@@ -40,6 +40,8 @@ public class Abbonamento {
         this.dataFine = dataFine;
         this.puntoEmissione = puntoEmissione;
     }
+    
+    public Abbonamento() {}
 
     public Tipologia getTipologia() {
         return tipologia;
