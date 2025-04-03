@@ -64,4 +64,24 @@ public class TrattaDAO {
         
         return (media != null) ? media : 0;
     }
+
+    public String partenzaTratta(long idTratta) {
+        Tratta tratta = findById(idTratta);
+
+        if (tratta != null) {
+            return tratta.getZonaPartenza();
+        } else {
+            return "Tratta non trovata";
+        }
+    }
+
+    public String capolineaTratta(long idTratta) {
+        Tratta tratta = findById(idTratta);
+
+        if (tratta != null) {
+            return tratta.getCapolinea();
+        } else {
+            return "Tratta non trovata";
+        }
+    }
 }

@@ -35,6 +35,7 @@ public class MainProvaMezzo {
         listaManutenzioneDAO.insert(new ListaManutenzione(mezzoInManutenzioneDAO.findById(1L), LocalDate.of(2023,1,4), LocalDate.of(2025, 2, 1), "Rottura macchinario del caffè"));
         listaManutenzioneDAO.insert(new ListaManutenzione(mezzoInManutenzioneDAO.findById(1L), LocalDate.of(2021,1,4), LocalDate.of(2022, 1, 31), "attrezzatura per la sicurezza mancante"));
         listaManutenzioneDAO.insert(new ListaManutenzione(mezzoInManutenzioneDAO.findById(1L), LocalDate.of(2020,3,4), LocalDate.of(2021, 2, 3), "guidatore personale influenzato"));
+        listaManutenzioneDAO.insert(new ListaManutenzione(mezzoInManutenzioneDAO.findById(1L), LocalDate.of(2020, 1, 4), LocalDate.of(2021, 2, 3), "Troppo traffico a roma, mi guasto da solo"));
         listaManutenzioneDAO.insert(new ListaManutenzione(mezzoInManutenzioneDAO.findById(1L), LocalDate.of(2010,2,3), LocalDate.of(2025, 6, 23), "perdita di olio dal motore"));
         listaManutenzioneDAO.insert(new ListaManutenzione(mezzoInManutenzioneDAO.findById(3L), LocalDate.of(2014,1,10), LocalDate.of(2016, 2, 24), "esplosione di un passeggero"));
         listaManutenzioneDAO.insert(new ListaManutenzione(mezzoInManutenzioneDAO.findById(3L), LocalDate.of(2015, 1, 10), LocalDate.of(2016, 2, 24), "ubriaco al volante"));

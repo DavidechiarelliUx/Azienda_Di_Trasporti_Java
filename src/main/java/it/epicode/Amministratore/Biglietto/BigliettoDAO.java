@@ -96,4 +96,9 @@ public class BigliettoDAO {
         return 0;
     }
 
+    public Long numeroTotBiglietti(){
+        TypedQuery<Long> query = em.createQuery(
+                "SELECT COUNT(b) FROM Biglietto b", Long.class);
+        return query.getSingleResult();
+    }
 }

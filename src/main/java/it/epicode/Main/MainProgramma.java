@@ -15,6 +15,10 @@ import it.epicode.Amministratore.Biglietto.PuntoEmissione.PuntoDiEmissione;
 import it.epicode.Amministratore.Biglietto.PuntoEmissione.Rivenditori.RivenditoreDAO;
 import it.epicode.Amministratore.Utente.Utente;
 import it.epicode.Amministratore.Utente.UtenteDAO;
+import it.epicode.Mezzi.ListaManutenzioni.ListaManutenzioneDAO;
+import it.epicode.Mezzi.MezzoDAO;
+import it.epicode.Mezzi.Tratta.Tratta;
+import it.epicode.Mezzi.Tratta.TrattaDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -104,6 +108,9 @@ public class MainProgramma {
                             System.out.println("2. Emissione Biglietto");
                             System.out.println("3. Conta Biglietti e Abbonamenti");
                             System.out.println("4. Conta Biglietti vidimati");
+                            System.out.println("5. Conta tutti i biglietti");
+                            System.out.println("6. Studia il perchè i mezzi sono stati in manutenzione e perchè");
+                            System.out.println("7. Numero di volte che un mezzo ha percorso una tratta");
                             System.out.println("0. Uscita");
                             System.out.print("Scegli un'operazione: ");
 
@@ -174,6 +181,39 @@ public class MainProgramma {
 
                                     System.out.println("Il numero totale di biglietti vidimati è: " + numeroBiglietti2);
                                     break;
+                                    case 5 :
+                                        System.out.println("Conteggio totale dei biglietti emessi:");
+
+                                        int numeroTotaleBiglietti = Math.toIntExact(bigliettoDAO.numeroTotBiglietti());
+                                        System.out.println("Il numero totale di biglietti emessi è: " + numeroTotaleBiglietti);
+                                        break;
+                                    case 6 :
+                                        MezzoDAO mezzoDAO = new MezzoDAO(em);
+                                        ListaManutenzioneDAO listaManutenzioneDAO = new ListaManutenzioneDAO(em);
+                                        Scanner scanner2 = new Scanner(System.in);
+
+                                        System.out.println("inserisci l'id del mezzo : ");
+                                        Long idMezzo = scanner2.nextLong();
+
+                                        scanner.nextLine();
+
+                                        List<Object[]> numeroManutenzioni = listaManutenzioneDAO.getManutenzioniByMezzoId(idMezzo);
+                                        System.out.println("il mezzo è stato in manutenzione : " + numeroManutenzioni.size() + " volte");
+                                        for (Object[] result : numeroManutenzioni) {
+                                            System.out.println("Data inizio manutenzione: " + result[0] + ", Data fine manutenzione: " + result[1] + " Descrizione manutenzione" + result[2]);
+                                        }
+                                        break;
+                                    case 7 :
+                                        System.out.println("Inserisci l'id della tratta : ");
+                                        Long idTratta = scanner.nextLong();
+                                        scanner.nextLine();
+                                        TrattaDAO trattaDAO = new TrattaDAO(em);
+                                        System.out.println("il mezzo è partito da : " + trattaDAO.partenzaTratta(idTratta) + " con capolinea :" + trattaDAO.capolineaTratta(idTratta) + " ha percorso : ");
+                                        trattaDAO.contaVolteTratta(idTratta);
+                                        System.out.println("Media tempo tratta 1: " + trattaDAO.calcolaMediaTempo(idTratta));
+
+                                        break;
+
                                 case 0:
                                     System.out.println("Uscita dall'area amministratore.");
                                     loggedIn = false;
