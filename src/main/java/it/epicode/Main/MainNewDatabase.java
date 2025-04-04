@@ -1,23 +1,23 @@
 package it.epicode.Main;
 
-import it.epicode.amministratore.classi.gestione_mezzi.lista_manutenzione.ListaManutenzione;
-import it.epicode.amministratore.classi.gestione_mezzi.lista_manutenzione.ListaManutenzioneDAO;
-import it.epicode.amministratore.classi.gestione_mezzi.stato_mezzo.MezzoInManutenzione;
-import it.epicode.amministratore.classi.gestione_mezzi.stato_mezzo.MezzoInManutenzioneDAO;
-import it.epicode.amministratore.classi.gestione_mezzi.stato_mezzo.MezzoInServizio;
-import it.epicode.amministratore.classi.gestione_mezzi.stato_mezzo.MezzoInServizioDAO;
-import it.epicode.amministratore.classi.gestione_mezzi.mezzo.TipoMezzo;
-import it.epicode.amministratore.classi.gestione_mezzi.tratta.TipoTratta;
-import it.epicode.amministratore.classi.gestione_mezzi.tratta.Tratta;
-import it.epicode.amministratore.classi.gestione_mezzi.tratta.TrattaDAO;
+import it.epicode.classi.gestione_mezzi.lista_manutenzione.ListaManutenzione;
+import it.epicode.classi.gestione_mezzi.lista_manutenzione.ListaManutenzioneDAO;
+import it.epicode.classi.gestione_mezzi.stato_mezzo.MezzoInManutenzione;
+import it.epicode.classi.gestione_mezzi.stato_mezzo.MezzoInManutenzioneDAO;
+import it.epicode.classi.gestione_mezzi.stato_mezzo.MezzoInServizio;
+import it.epicode.classi.gestione_mezzi.stato_mezzo.MezzoInServizioDAO;
+import it.epicode.classi.gestione_mezzi.mezzo.TipoMezzo;
+import it.epicode.classi.gestione_mezzi.tratta.TipoTratta;
+import it.epicode.classi.gestione_mezzi.tratta.Tratta;
+import it.epicode.classi.gestione_mezzi.tratta.TrattaDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import it.epicode.amministratore.classi.biglietto.Biglietto;
-import it.epicode.amministratore.classi.punto_di_emissione.distributore.Distributore;
-import it.epicode.amministratore.classi.punto_di_emissione.rivenditore.Rivenditore;
-import it.epicode.amministratore.classi.tessera.Tessera;
-import it.epicode.amministratore.classi.utente.Utente;
+import it.epicode.classi.gestione_funzionalità_utente.biglietto.Biglietto;
+import it.epicode.classi.gestione_funzionalità_utente.punto_di_emissione.distributore.Distributore;
+import it.epicode.classi.gestione_funzionalità_utente.punto_di_emissione.rivenditore.Rivenditore;
+import it.epicode.classi.gestione_funzionalità_utente.tessera.Tessera;
+import it.epicode.classi.gestione_funzionalità_utente.utente.Utente;
 
 import java.time.LocalDate;
 
