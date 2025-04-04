@@ -1,13 +1,11 @@
 package it.epicode.Main;
 
 
-import it.epicode.Amministratore.Abbonamento.Abbonamenti.AbbonamentoDAO;
-import it.epicode.Amministratore.Abbonamento.Tessera.TesseraDAO;
-import it.epicode.Amministratore.Biglietto.Biglietto;
-import it.epicode.Amministratore.Biglietto.BigliettoDAO;
-import it.epicode.Amministratore.Utente.UtenteDAO;
-import it.epicode.Mezzi.Mezzo;
-import it.epicode.Mezzi.MezzoDAO;
+import it.epicode.amministratore.abbonamento.abbonamento.AbbonamentoDAO;
+import it.epicode.amministratore.abbonamento.tessera.TesseraDAO;
+import it.epicode.amministratore.biglietto.BigliettoDAO;
+import it.epicode.amministratore.utente.UtenteDAO;
+import it.epicode.mezzo.MezzoDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;

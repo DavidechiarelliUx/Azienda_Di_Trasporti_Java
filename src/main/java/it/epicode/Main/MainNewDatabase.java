@@ -1,23 +1,23 @@
 package it.epicode.Main;
 
-import it.epicode.Mezzi.ListaManutenzioni.ListaManutenzione;
-import it.epicode.Mezzi.ListaManutenzioni.ListaManutenzioneDAO;
-import it.epicode.Mezzi.StatoMezzo.MezzoInManutenzione;
-import it.epicode.Mezzi.StatoMezzo.MezzoInManutenzioneDAO;
-import it.epicode.Mezzi.StatoMezzo.MezzoInServizio;
-import it.epicode.Mezzi.StatoMezzo.MezzoInServizioDAO;
-import it.epicode.Mezzi.TipoMezzo;
-import it.epicode.Mezzi.Tratta.TipoTratta;
-import it.epicode.Mezzi.Tratta.Tratta;
-import it.epicode.Mezzi.Tratta.TrattaDAO;
+import it.epicode.mezzo.lista_manutenzione.ListaManutenzione;
+import it.epicode.mezzo.lista_manutenzione.ListaManutenzioneDAO;
+import it.epicode.mezzo.stato_mezzo.MezzoInManutenzione;
+import it.epicode.mezzo.stato_mezzo.MezzoInManutenzioneDAO;
+import it.epicode.mezzo.stato_mezzo.MezzoInServizio;
+import it.epicode.mezzo.stato_mezzo.MezzoInServizioDAO;
+import it.epicode.mezzo.TipoMezzo;
+import it.epicode.mezzo.tratta.TipoTratta;
+import it.epicode.mezzo.tratta.Tratta;
+import it.epicode.mezzo.tratta.TrattaDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import it.epicode.Amministratore.Biglietto.Biglietto;
-import it.epicode.Amministratore.Biglietto.PuntoEmissione.Distributori.Distributore;
-import it.epicode.Amministratore.Biglietto.PuntoEmissione.Rivenditori.Rivenditore;
-import it.epicode.Amministratore.Abbonamento.Tessera.Tessera;
-import it.epicode.Amministratore.Utente.Utente;
+import it.epicode.amministratore.biglietto.Biglietto;
+import it.epicode.amministratore.biglietto.punto_di_emissione.distributore.Distributore;
+import it.epicode.amministratore.biglietto.punto_di_emissione.rivenditore.Rivenditore;
+import it.epicode.amministratore.abbonamento.tessera.Tessera;
+import it.epicode.amministratore.utente.Utente;
 
 import java.time.LocalDate;
 
