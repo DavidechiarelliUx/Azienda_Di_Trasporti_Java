@@ -95,6 +95,7 @@ public class MainProgramma {
                     System.out.println("Benvenuto, " + nomeUtente + " " + cognomeUtente);
                     loggedIn = true;
                     break;
+                    
                 case 3 :
                     System.out.println("Inserisci la password : ");
                     String password = scanner.next();
@@ -105,7 +106,7 @@ public class MainProgramma {
                             System.out.println("~ . ~ Menu Amministratore ~ . ~");
                             System.out.println("1. Conta Biglietti e Abbonamenti");
                             System.out.println("2. Conta Biglietti vidimati");
-                            System.out.println("3. Studia il perchè i mezzi sono stati in manutenzione");
+                            System.out.println("3. Storico delle manutenzioni");
                             System.out.println("4. Numero di volte che un mezzo ha percorso una tratta");
                             System.out.println("0. Uscita");
                             System.out.print("Scegli un'operazione: ");
