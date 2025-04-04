@@ -1,7 +1,7 @@
-package it.epicode.classi.gestione_funzionalità_utente.tessera;
+package it.epicode.classi.gestione_funzionalita_utente.tessera;
 
-import it.epicode.classi.gestione_funzionalità_utente.abbonamento.Abbonamento;
-import it.epicode.classi.gestione_funzionalità_utente.utente.Utente;
+import it.epicode.classi.gestione_funzionalita_utente.abbonamento.Abbonamento;
+import it.epicode.classi.gestione_funzionalita_utente.utente.Utente;
 import jakarta.persistence.*;
 import jakarta.persistence.GenerationType;
 

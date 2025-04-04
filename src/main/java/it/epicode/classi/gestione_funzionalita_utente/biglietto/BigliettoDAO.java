@@ -1,6 +1,6 @@
-package it.epicode.classi.gestione_funzionalità_utente.biglietto;
+package it.epicode.classi.gestione_funzionalita_utente.biglietto;
 
-import it.epicode.classi.gestione_funzionalità_utente.punto_di_emissione.PuntoDiEmissione;
+import it.epicode.classi.gestione_funzionalita_utente.punto_di_emissione.PuntoDiEmissione;
 import it.epicode.classi.gestione_mezzi.mezzo.Mezzo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;

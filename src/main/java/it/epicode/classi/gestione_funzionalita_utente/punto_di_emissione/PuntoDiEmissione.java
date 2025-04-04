@@ -1,6 +1,6 @@
-package it.epicode.classi.gestione_funzionalità_utente.punto_di_emissione;
+package it.epicode.classi.gestione_funzionalita_utente.punto_di_emissione;
 
-import it.epicode.classi.gestione_funzionalità_utente.biglietto.Biglietto;
+import it.epicode.classi.gestione_funzionalita_utente.biglietto.Biglietto;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

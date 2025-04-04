@@ -1,8 +1,8 @@
-package it.epicode.classi.gestione_funzionalità_utente.abbonamento;
+package it.epicode.classi.gestione_funzionalita_utente.abbonamento;
 
-import it.epicode.classi.gestione_funzionalità_utente.tessera.Tessera;
-import it.epicode.classi.gestione_funzionalità_utente.punto_di_emissione.PuntoDiEmissione;
-import it.epicode.classi.gestione_funzionalità_utente.utente.Utente;
+import it.epicode.classi.gestione_funzionalita_utente.tessera.Tessera;
+import it.epicode.classi.gestione_funzionalita_utente.punto_di_emissione.PuntoDiEmissione;
+import it.epicode.classi.gestione_funzionalita_utente.utente.Utente;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

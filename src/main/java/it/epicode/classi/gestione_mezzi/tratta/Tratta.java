@@ -39,6 +39,14 @@ public class Tratta {
     @Column(name = "codiceidentificativo", nullable = false)
     private Long codiceIdentificativo;
 
+    public Long getCodiceIdentificativo() {
+        return codiceIdentificativo;
+    }
+
+    public void setCodiceIdentificativo(Long codiceIdentificativo) {
+        this.codiceIdentificativo = codiceIdentificativo;
+    }
+
     @Column
     (name = "numero_volte",  nullable = false, columnDefinition = "int default 0")
     private int numeroVolte = 0;
