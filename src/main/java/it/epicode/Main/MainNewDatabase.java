@@ -78,15 +78,19 @@ public class MainNewDatabase {
         MezzoInManutenzioneDAO mezzoInManutenzioneDAO = new MezzoInManutenzioneDAO(em);
         MezzoInServizioDAO mezzoInServizioDAO = new MezzoInServizioDAO(em);
         
-        MezzoInManutenzione mezzoManutenzione1 = new MezzoInManutenzione(30, TipoMezzo.TRAM, LocalDate.now(), LocalDate.of(2025, 10, 10));
         MezzoInServizio mezzoServizio1 = new MezzoInServizio(40, TipoMezzo.TRAM, LocalDate.now(), LocalDate.of(2025, 10, 10));
-        MezzoInManutenzione mezzoManutenzione2 = new MezzoInManutenzione(20, TipoMezzo.AUTOBUS, LocalDate.now(), LocalDate.of(2025, 12, 31));
         MezzoInServizio mezzoServizio2 = new MezzoInServizio(10, TipoMezzo.AUTOBUS, LocalDate.now(), LocalDate.of(2025, 1, 1));
+        MezzoInServizio mezzoServizio3 = new MezzoInServizio(25, TipoMezzo.AUTOBUS, LocalDate.now(), LocalDate.of(2025, 1, 1));
+        MezzoInManutenzione mezzoManutenzione1 = new MezzoInManutenzione(30, TipoMezzo.TRAM, LocalDate.now(), LocalDate.of(2025, 10, 10));
+        MezzoInManutenzione mezzoManutenzione2 = new MezzoInManutenzione(20, TipoMezzo.AUTOBUS, LocalDate.now(), LocalDate.of(2025, 12, 31));
+       
         
         em.persist(mezzoManutenzione1);
-        em.persist(mezzoServizio1);
         em.persist(mezzoManutenzione2);
+        
+        em.persist(mezzoServizio1);
         em.persist(mezzoServizio2);
+        em.persist(mezzoServizio3);
         
         ListaManutenzioneDAO listaManutenzioneDAO = new ListaManutenzioneDAO(em);
         listaManutenzioneDAO.insert(new ListaManutenzione(mezzoInManutenzioneDAO.findById(1L), LocalDate.of(2021, 5, 12), LocalDate.of(2025, 10, 10), "Rottura macchinario del caffè"));
@@ -100,13 +104,13 @@ public class MainNewDatabase {
         listaManutenzioneDAO.insert(new ListaManutenzione(mezzoInManutenzioneDAO.findById(3L), LocalDate.of(2016, 1, 10), LocalDate.of(2016, 2, 24), "eccesso di velocità e schianto contro un palo della luce"));
         
         TrattaDAO trattaDAO = new TrattaDAO(em);
-        Tratta tratta = new Tratta("Piazza del Popolo", "Stazione Centrale", 30, 50, TipoTratta.MATTINA, 1L);
-        Tratta tratta2 = new Tratta("Via Vittorio Veneto", "Via Roma", 30, 10, TipoTratta.POMERIGGIO, 2L);
-        Tratta tratta3 = new Tratta("Via Giulio Cesare", "Stazione di Vittorio Veneto", 20, 40, TipoTratta.MATTINA, 3L);
-        Tratta tratta4 = new Tratta("Via Giulio Cesare", "Stazione di Vittorio Veneto", 30, 13, TipoTratta.POMERIGGIO, 3L);
-        Tratta tratta5 = new Tratta("Via Giulio Cesare", "Stazione di Vittorio Veneto", 30, 8, TipoTratta.SERA, 3L);
-        Tratta tratta6 = new Tratta("Via Jacopo Sannazzaro", "Stazione della Vittoria", 30, 20, TipoTratta.SERA, 4L);
-        Tratta tratta7 = new Tratta("Via Jacopo Sannazzaro", "Stazione della Vittoria", 30, 10, TipoTratta.MATTINA, 4L);
+        Tratta tratta = new Tratta("Piazza del Popolo", "Stazione Centrale", 30, 50, TipoTratta.MATTINA, mezzoServizio1 );
+        Tratta tratta2 = new Tratta("Via Vittorio Veneto", "Via Roma", 30, 10, TipoTratta.POMERIGGIO, mezzoServizio1);
+        Tratta tratta3 = new Tratta("Via Giulio Cesare", "Stazione di Vittorio Veneto", 20, 40, TipoTratta.MATTINA, mezzoServizio3);
+        Tratta tratta4 = new Tratta("Via Giulio Cesare", "Stazione di Vittorio Veneto", 30, 13, TipoTratta.POMERIGGIO, mezzoServizio3);
+        Tratta tratta5 = new Tratta("Via Giulio Cesare", "Stazione di Vittorio Veneto", 30, 8, TipoTratta.SERA, mezzoServizio3);
+        Tratta tratta6 = new Tratta("Via Jacopo Sannazzaro", "Stazione della Vittoria", 30, 20, TipoTratta.SERA, mezzoServizio2);
+        Tratta tratta7 = new Tratta("Via Jacopo Sannazzaro", "Stazione della Vittoria", 30, 10, TipoTratta.MATTINA, mezzoServizio2);
         
         em.persist(tratta);
         em.persist(tratta2);

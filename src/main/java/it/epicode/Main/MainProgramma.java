@@ -17,6 +17,7 @@ import it.epicode.classi.gestione_funzionalita_utente.utente.Utente;
 import it.epicode.classi.gestione_funzionalita_utente.utente.UtenteDAO;
 import it.epicode.classi.gestione_mezzi.lista_manutenzione.ListaManutenzioneDAO;
 import it.epicode.classi.gestione_mezzi.mezzo.MezzoDAO;
+import it.epicode.classi.gestione_mezzi.tratta.Tratta;
 import it.epicode.classi.gestione_mezzi.tratta.TrattaDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -192,10 +193,21 @@ public class MainProgramma {
                                         scanner.nextLine();
                                         TrattaDAO trattaDAO = new TrattaDAO(em);
                                         
-                                        System.out.println("Il mezzo è partito da: " + trattaDAO.partenzaTratta(idTratta) + " con capolinea: " + trattaDAO.capolineaTratta(idTratta));
-                                        trattaDAO.contaVolteTratta(idTratta);
-                                        System.out.println("Media tempo tratta: " + trattaDAO.calcolaMediaTempo(idTratta));
+                                        Tratta tratta = trattaDAO.findById(idTratta);
+                                        
+                                        if (tratta != null) {
+                                            System.out.println("Il mezzo è partito da: " + tratta.getZonaPartenza() + " con capolinea: " + tratta.getCapolinea());
+                                            
+                                            // Conta quante volte il mezzo ha percorso questa tratta
+                                            trattaDAO.contaVolteTratta(idTratta);
+                                            
+                                            Long idMezzo1 = tratta.getMezzo().getId();
+                                            System.out.println("Media tempo tratta: " + trattaDAO.calcolaMediaTempo(idMezzo1));
+                                        } else {
+                                            System.out.println("Tratta non trovata.");
+                                        }
                                         break;
+                                    
                                     
                                     case 5:
                                         System.out.println("Uscita dall'area amministratore.");
@@ -206,8 +218,6 @@ public class MainProgramma {
                                         System.out.println("Uscita dal programma.");
                                         System.exit(0);
                                         break;
-                                    
-                                    
                                     
                                     default:
                                         System.out.println("Opzione non valida. Riprova.");

@@ -21,59 +21,38 @@ public class TrattaDAO {
     public Tratta findById(long id){
         return em.find(Tratta.class, id);
     }
-
-    public void collegaMezzoTratta(long idMezzo, long idTratta) {
-        Mezzo mezzo = em.find(Mezzo.class, idMezzo);
-        Tratta tratta = em.find(Tratta.class, idTratta);
-
-        if (mezzo != null && tratta != null) {
-            mezzo.setTratta(tratta);
-            List<Mezzo> mezzi = new ArrayList<>();
-            mezzi.add(mezzo);
-            tratta.setMezzo(mezzi);
-            em.merge(mezzo);
-            em.merge(tratta);
-        } else {
-            if (mezzo == null) {
-                System.out.println("Mezzo con ID " + idMezzo + " non trovato.");
-            }
-            if (tratta == null) {
-                System.out.println("Tratta con ID " + idTratta + " non trovata.");
-            }
-        }
-    }
-
+    
     public void contaVolteTratta(long idTratta) {
         Tratta tratta = em.find(Tratta.class, idTratta);
-
-        if (tratta != null) {
+        
+        if (tratta != null && tratta.getMezzo() != null) {
             Long conteggio = em.createQuery(
-                            "SELECT COUNT(t) FROM Tratta t WHERE t.codiceIdentificativo = :codice",
+                            "SELECT COUNT(t) FROM Tratta t WHERE t.mezzo.id = :mezzoId",
                             Long.class)
-                    .setParameter("codice", tratta.getCodiceIdentificativo())
+                    .setParameter("mezzoId", tratta.getMezzo().getId())
                     .getSingleResult();
-
+            
             tratta.setNumeroVolte(conteggio.intValue());
-
+            
             em.merge(tratta);
-
-            System.out.println("La tratta con ID " + idTratta + " e codice " + tratta.getCodiceIdentificativo()
+            
+            System.out.println("La tratta con ID " + idTratta + " e mezzo ID " + tratta.getMezzo().getId()
                     + " viene percorsa: " + tratta.getNumeroVolte() + " volte");
         } else {
-            System.out.println("Tratta con ID " + idTratta + " non trovata.");
+            System.out.println("Tratta con ID " + idTratta + " non trovata o non ha un mezzo associato.");
         }
     }
     
-    public double calcolaMediaTempo(Long codiceIdentificativo) {
+    public double calcolaMediaTempo(Long mezzoId) {
         Double media = em.createQuery(
-                        "SELECT AVG(t.trattaPercorsa) FROM Tratta t WHERE t.codiceIdentificativo = :codice",
+                        "SELECT AVG(t.trattaPercorsa) FROM Tratta t WHERE t.mezzo.id = :mezzoId",
                         Double.class)
-                .setParameter("codice", codiceIdentificativo)
+                .setParameter("mezzoId", mezzoId)
                 .getSingleResult();
         
         return (media != null) ? media : 0;
     }
-
+    
     public String partenzaTratta(long idTratta) {
         Tratta tratta = findById(idTratta);
 
