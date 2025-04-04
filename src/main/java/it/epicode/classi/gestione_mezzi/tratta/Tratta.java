@@ -71,14 +71,6 @@ public class Tratta {
         return capolinea;
     }
     
-    public Long getCodiceIdentificativo() {
-        return codiceIdentificativo;
-    }
-    
-    public void setCodiceIdentificativo(Long codiceIdentificativo) {
-        this.codiceIdentificativo = codiceIdentificativo;
-    }
-    
     public void setCapolinea(String capolinea) {
         this.capolinea = capolinea;
     }
