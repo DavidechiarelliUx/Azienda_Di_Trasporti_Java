@@ -1,4 +1,4 @@
-package it.epicode.classi.gestione_funzionalità_utente.punto_di_emissione.rivenditore;
+package it.epicode.classi.gestione_funzionalita_utente.punto_di_emissione.rivenditore;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;

@@ -1,4 +1,4 @@
-package it.epicode.classi.gestione_funzionalità_utente.utente;
+package it.epicode.classi.gestione_funzionalita_utente.utente;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;

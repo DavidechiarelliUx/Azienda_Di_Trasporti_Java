@@ -1,4 +1,4 @@
-package it.epicode.classi.gestione_funzionalità_utente.tessera;
+package it.epicode.classi.gestione_funzionalita_utente.tessera;
 
 import jakarta.persistence.EntityManager;
 

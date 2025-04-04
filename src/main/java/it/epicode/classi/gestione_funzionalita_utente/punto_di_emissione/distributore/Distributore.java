@@ -1,6 +1,6 @@
-package it.epicode.classi.gestione_funzionalità_utente.punto_di_emissione.distributore;
+package it.epicode.classi.gestione_funzionalita_utente.punto_di_emissione.distributore;
 
-import it.epicode.classi.gestione_funzionalità_utente.punto_di_emissione.PuntoDiEmissione;
+import it.epicode.classi.gestione_funzionalita_utente.punto_di_emissione.PuntoDiEmissione;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

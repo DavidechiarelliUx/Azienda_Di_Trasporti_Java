@@ -42,14 +42,23 @@ public class TrattaDAO {
             }
         }
     }
-    
+
     public void contaVolteTratta(long idTratta) {
         Tratta tratta = em.find(Tratta.class, idTratta);
 
         if (tratta != null) {
-            tratta.setNumeroVolte(tratta.getNumeroVolte() + 1);
+            Long conteggio = em.createQuery(
+                            "SELECT COUNT(t) FROM Tratta t WHERE t.codiceIdentificativo = :codice",
+                            Long.class)
+                    .setParameter("codice", tratta.getCodiceIdentificativo())
+                    .getSingleResult();
+
+            tratta.setNumeroVolte(conteggio.intValue());
+
             em.merge(tratta);
-            System.out.println("La tratta numero " + idTratta + " viene percorsa: " + tratta.getNumeroVolte() + " volte");
+
+            System.out.println("La tratta con ID " + idTratta + " e codice " + tratta.getCodiceIdentificativo()
+                    + " viene percorsa: " + tratta.getNumeroVolte() + " volte");
         } else {
             System.out.println("Tratta con ID " + idTratta + " non trovata.");
         }

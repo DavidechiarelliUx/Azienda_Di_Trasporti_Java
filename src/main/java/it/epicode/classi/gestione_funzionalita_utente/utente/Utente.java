@@ -1,6 +1,6 @@
-package it.epicode.classi.gestione_funzionalità_utente.utente;
+package it.epicode.classi.gestione_funzionalita_utente.utente;
 
-import it.epicode.classi.gestione_funzionalità_utente.tessera.Tessera;
+import it.epicode.classi.gestione_funzionalita_utente.tessera.Tessera;
 import jakarta.persistence.*;
 
 @Entity

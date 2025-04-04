@@ -1,6 +1,6 @@
-package it.epicode.classi.gestione_funzionalità_utente.abbonamento;
+package it.epicode.classi.gestione_funzionalita_utente.abbonamento;
 
-import it.epicode.classi.gestione_funzionalità_utente.punto_di_emissione.PuntoDiEmissione;
+import it.epicode.classi.gestione_funzionalita_utente.punto_di_emissione.PuntoDiEmissione;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 

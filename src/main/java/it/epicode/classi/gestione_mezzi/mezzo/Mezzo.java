@@ -1,6 +1,6 @@
 package it.epicode.classi.gestione_mezzi.mezzo;
 
-import it.epicode.classi.gestione_funzionalità_utente.biglietto.Biglietto;
+import it.epicode.classi.gestione_funzionalita_utente.biglietto.Biglietto;
 import it.epicode.classi.gestione_mezzi.tratta.Tratta;
 import jakarta.persistence.*;
 
